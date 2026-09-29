@@ -1,0 +1,27 @@
+{
+  "_comment": "Copy to tech-sheet.local.json (git-ignored) and fill the REPLACE_ME fields. Never commit stream keys: this repo is public.",
+  "title": "Chidagni 2026 — Technician Sheet · Days 1-5",
+  "subtitle": "Tuesday 6 - Saturday 10 October 2026 · Mini Hall, 2nd Floor, Bharatiya Vidya Bhavan, Mylapore, Chennai",
+  "channel": "SVMF (@svmf5987)",
+  "channel_id": "UCo9SYm6E-GmcnU9tmWZdmGA",
+  "facebook": "REPLACE_ME or null (e.g. Sripeetam Chennai, if the Restream event also goes to Facebook)",
+  "website_player": "https://live.svmf.in/chidagni",
+  "rtmp_url": "rtmp://live.restream.io/live",
+  "days": [
+    {"n": 1, "date": "Tuesday 6 October 2026", "go_live": "4:45 PM",
+     "programme": "Inauguration: lighting of the lamp, addresses (5:00 pm); Vid. Ritvik Y V, Carnatic vocal (6:45 pm)",
+     "video_id": "REPLACE_ME", "restream_event": "REPLACE_ME", "stream_key": "REPLACE_ME"},
+    {"n": 2, "date": "Wednesday 7 October 2026", "go_live": "5:15 PM",
+     "programme": "Dr. Priya Ramachandran, lecture on Sita Devi (5:30 pm); Dr. R. Ganesh and Party, namasankirtanam (6:45 pm)",
+     "video_id": "REPLACE_ME", "restream_event": "REPLACE_ME", "stream_key": "REPLACE_ME"},
+    {"n": 3, "date": "Thursday 8 October 2026", "go_live": "5:15 PM",
+     "programme": "Prof. K. Srinivasan, lecture on Moksha-Pradayini (5:30 pm); Dr. Radha Bhaskar and disciples, Carnatic vocal (6:45 pm)",
+     "video_id": "REPLACE_ME", "restream_event": "REPLACE_ME", "stream_key": "REPLACE_ME"},
+    {"n": 4, "date": "Friday 9 October 2026", "go_live": "5:45 PM",
+     "programme": "Kalarathna Vid. U. E. Sinddhuja, harikatha on Meena Lochani, Paasha Mochani (6:00 pm)",
+     "video_id": "REPLACE_ME", "restream_event": "REPLACE_ME", "stream_key": "REPLACE_ME"},
+    {"n": 5, "date": "Saturday 10 October 2026", "go_live": "5:45 PM",
+     "programme": "Dr. M. Narmadha, Carnatic violin (6:00 pm); Vote of Thanks (7:30 pm)",
+     "video_id": "REPLACE_ME", "restream_event": "REPLACE_ME", "stream_key": "REPLACE_ME"}
+  ]
+}

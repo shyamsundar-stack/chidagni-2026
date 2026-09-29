@@ -2,3 +2,4 @@
 Thumbs.db
 *.pdf
 __pycache__/
+*.local.json
