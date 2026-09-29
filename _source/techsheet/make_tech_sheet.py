@@ -24,10 +24,10 @@ if missing:
     sys.exit('Fill these first: ' + ', '.join(missing))
 
 INK, BAND, EDGE = colors.HexColor('#2B1F66'), colors.HexColor('#ECEAF8'), colors.HexColor('#A9A3DA')
-base = ParagraphStyle('b', fontName='Helvetica', fontSize=9.2, leading=12.2)
-bold = ParagraphStyle('h', parent=base, fontName='Helvetica-Bold', fontSize=11.5, leading=14, textColor=INK)
+base = ParagraphStyle('b', fontName='Helvetica', fontSize=8.9, leading=11.3)
+bold = ParagraphStyle('h', parent=base, fontName='Helvetica-Bold', fontSize=11, leading=13, textColor=INK)
 title = ParagraphStyle('t', parent=base, fontName='Helvetica-Bold', fontSize=16, leading=20, alignment=1)
-small = ParagraphStyle('s', parent=base, fontSize=8.6, leading=11.4)
+small = ParagraphStyle('s', parent=base, fontSize=8.4, leading=10.8)
 mono = lambda s: f'<font face="Courier">{x(s)}</font>'
 
 story = [Paragraph(x(data['title']), title), Spacer(1, 3),
@@ -53,9 +53,9 @@ for d in data['days']:
     t.setStyle(TableStyle([
         ('BOX', (0, 0), (-1, -1), 0.6, EDGE), ('LINEBELOW', (0, 0), (-1, 0), 0.6, EDGE),
         ('BACKGROUND', (0, 0), (-1, 0), BAND),
-        ('LEFTPADDING', (0, 0), (-1, -1), 6), ('TOPPADDING', (0, 0), (-1, -1), 3.2),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.2)]))
-    story += [KeepTogether(t), Spacer(1, 5)]
+        ('LEFTPADDING', (0, 0), (-1, -1), 6), ('TOPPADDING', (0, 0), (-1, -1), 2.1),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 2.1)]))
+    story += [KeepTogether(t), Spacer(1, 3.5)]
 
 zoom = 'https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09'
 story += [KeepTogether([
@@ -76,6 +76,6 @@ story += [KeepTogether([
 ])]
 
 SimpleDocTemplate(sys.argv[2], pagesize=A4, leftMargin=15 * mm, rightMargin=15 * mm,
-                  topMargin=12 * mm, bottomMargin=12 * mm,
+                  topMargin=9 * mm, bottomMargin=8 * mm,
                   title=data['title'], author='SVMF').build(story)
 print('wrote', sys.argv[2])

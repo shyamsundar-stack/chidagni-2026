@@ -13,7 +13,7 @@ Everything needed to schedule the five evening streams on the **SVMF** channel (
 ## Before you start (once)
 
 1. **Channel checks.** In YouTube Studio, Settings, Channel, Feature eligibility: the channel must be phone-verified (custom thumbnails need it) and live streaming must be enabled. If live streaming has never been used on this channel, turning it on takes up to 24 hours, so do it today.
-2. **One reusable stream key.** Create, Go live, Stream settings, Stream key, *Create new stream key*. Name it `Chidagni 2026`, type *Default*, Variable bitrate on. The encoder (OBS/vMix, or Zoom's custom live streaming) is set up once with this key and server `rtmp://a.rtmp.youtube.com/live2`.
+2. **Ingest is Restream, not a YouTube key.** Each broadcast below is attached to its own Restream event (app.restream.io/shows/…), which also sends the feed to Facebook (Sripeetam Chennai). The technician streams to Restream: in OBS, Service *Restream.io* and that day's event, or `rtmp://live.restream.io/live` with that day's Restream key from the printed technician sheet. Do **not** stream to `rtmp://a.rtmp.youtube.com/live2`. (Originally a shared YouTube key `Chidagni 2026` was created; it is no longer used.)
 3. **Playlist.** Content, Playlists, New playlist: `Chidagni 2026`, Public. Each stream is added to it in the Details step below.
 
 ## Doing it in YouTube Studio
@@ -39,7 +39,7 @@ For each day, in this order (Day 1 first, then Days 2 to 5):
 - **Category Music.** Every evening has music at its core (Carnatic vocal and violin concerts, namasankirtanam, a harikatha with violin and mridangam), and Music is where YouTube surfaces Carnatic content. The category only affects discovery, not any stream feature; *Nonprofits & Activism* is the alternative if the channel prefers it.
 - **Live chat ON with slow mode.** Diaspora viewers like to send pranams; slow mode keeps it calm. If nobody can watch the chat during the evening, switch Live chat OFF in the Customization step.
 - **Language.** Titles and descriptions are English (the audience includes the diaspora); the talks, harikatha and namasankirtanam are most likely in Tamil, so the video (audio) language is Tamil. Confirm with the organisers if a speaker lectures in English.
-- **If Zoom is the encoder:** in Zoom use *More → Live on Custom Live Streaming Service* with the server and the `Chidagni 2026` key, and the day's watch URL as the *Live streaming page URL*. Do **not** use Zoom's one-click *Live on YouTube*: it creates a brand new broadcast with a different URL, which the event page does not know about.
+- **If Zoom is the encoder:** in Zoom use *More → Live on Custom Live Streaming Service* with server `rtmp://live.restream.io/live` and that day's Restream key (technician sheet), and the day's watch URL as the *Live streaming page URL*. Do **not** use Zoom's one-click *Live on YouTube*: it creates a brand new broadcast with a different URL, which the event page does not know about.
 
 ## After scheduling
 
@@ -62,7 +62,7 @@ Scheduled streams can be re-timed or re-titled later without changing the URL. D
 - **Scheduled start:** Tuesday 6 October 2026, **4:45 pm IST** (`2026-10-06T16:45:00+05:30`)
 - **Thumbnail:** `day-1.jpg`
 - **Category:** Music · **Visibility:** Public · **Made for kids:** No · **Playlist:** Chidagni 2026
-- **Stream key:** Chidagni 2026 · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
+- **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
 - **Key for STREAMS:** `'2026-10-06'`
 
 **Title** (80/100)
@@ -139,7 +139,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 - **Scheduled start:** Wednesday 7 October 2026, **5:15 pm IST** (`2026-10-07T17:15:00+05:30`)
 - **Thumbnail:** `day-2.jpg`
 - **Category:** Music · **Visibility:** Public · **Made for kids:** No · **Playlist:** Chidagni 2026
-- **Stream key:** Chidagni 2026 · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
+- **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
 - **Key for STREAMS:** `'2026-10-07'`
 
 **Title** (94/100)
@@ -201,7 +201,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 - **Scheduled start:** Thursday 8 October 2026, **5:15 pm IST** (`2026-10-08T17:15:00+05:30`)
 - **Thumbnail:** `day-3.jpg`
 - **Category:** Music · **Visibility:** Public · **Made for kids:** No · **Playlist:** Chidagni 2026
-- **Stream key:** Chidagni 2026 · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
+- **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
 - **Key for STREAMS:** `'2026-10-08'`
 
 **Title** (100/100)
@@ -265,7 +265,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 - **Scheduled start:** Friday 9 October 2026, **5:45 pm IST** (`2026-10-09T17:45:00+05:30`)
 - **Thumbnail:** `day-4.jpg`
 - **Category:** Music · **Visibility:** Public · **Made for kids:** No · **Playlist:** Chidagni 2026
-- **Stream key:** Chidagni 2026 · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
+- **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
 - **Key for STREAMS:** `'2026-10-09'`
 
 **Title** (88/100)
@@ -327,7 +327,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 - **Scheduled start:** Saturday 10 October 2026, **5:45 pm IST** (`2026-10-10T17:45:00+05:30`)
 - **Thumbnail:** `day-5.jpg`
 - **Category:** Music · **Visibility:** Public · **Made for kids:** No · **Playlist:** Chidagni 2026
-- **Stream key:** Chidagni 2026 · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
+- **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
 - **Key for STREAMS:** `'2026-10-10'`
 
 **Title** (66/100)
