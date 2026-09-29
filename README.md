@@ -67,13 +67,13 @@ standing in for Canva's "Codex", which is not licensed for the web.
 
 ```js
 var STREAMS = {
-  '2026-10-06': '',   // paste the YouTube video id for each evening here
+  '2026-10-06': '',   // paste each evening's YouTube link (or bare video id) here
   ...
 };
 ```
 
-Once the technician sends the scheduled broadcast links, paste each video id (the part
-after `watch?v=`). The player then mounts that evening's embed by itself, `EARLY_MIN`
+Once the broadcasts are scheduled, paste each evening's link as YouTube gives it
+(`watch?v=`, `youtu.be/` or `/live/` all work; `main.js` pulls the id out). The player then mounts that evening's embed by itself, `EARLY_MIN`
 minutes before the first item, and the "Open the stream on YouTube" link follows the
 current day. **Until an id is in**, a live session shows "Open the Zoom room" and
 "Watch on YouTube" buttons in the player instead of an empty frame, so the page works
@@ -114,6 +114,89 @@ The note lives on the button (`data-msg`); the venue line and the closing invita
 shared by every card and live in `main.js` as `TAIL` and `ASK`. Each poster exists as
 `.webp` for the page and `.jpg` for sharing; the JPEG is only fetched when the sheet opens.
 
+## Link previews
+
+The Open Graph and Twitter tags near the top of the `<head>` give WhatsApp, Facebook,
+Telegram, iMessage and X their preview. `og:url` and `canonical` point at the GitHub
+Pages URL, not live.svmf.in, because scrapers follow `og:url` and the redirect is not
+live yet.
+
+- `assets/img/share.jpg` (1200 x 630, about 106 KB) is built by section 7 of
+  `_source/extract_assets.py`. WhatsApp often shows only a small square cut from the
+  **centre** of the image, so the wordmark, dates and venue all sit inside the middle
+  630 x 630. Keep the file under 300 KB, or WhatsApp drops the image.
+- **To refresh a cached thumbnail**, bump the `?v=` number on the image URL in
+  `og:image`, `og:image:secure_url` and `twitter:image` (currently `share.jpg?v=2`).
+  For Facebook and WhatsApp, also run the page URL through the
+  [Sharing Debugger](https://developers.facebook.com/tools/debug/) and click
+  "Scrape Again". Chats that already show the old preview keep it.
+
+## Analytics
+
+Google Tag Manager container **`GTM-5XK8XFPK`**, the one the Sri Krishna Utsavam page
+uses (same client, same host; GA4 tells the two sites apart by page path,
+`/chidagni-2026/` vs `/sri-krishna-utsavam-2026/`). The snippet sits at the top of the
+`<head>` and the `noscript` iframe straight after `<body>`.
+
+`main.js` pushes the events below onto `window.dataLayer` through one `track()` helper
+that never throws. Every push lists every parameter, unset ones as `undefined`, so a value
+from one event never leaks into the next through GTM's data model.
+
+| Event | When | Parameters |
+|---|---|---|
+| `live_state` | once per page view, on load | `phase` (before, live, between, ended), `festival_day` (IST date of the visit), `session_title` (when live), `days_to_start` (before only) |
+| `cta_click` | any in-page link: nav, hero buttons, logo, the countdown's "Watch the stream", skip link | `label`, `destination` (`#schedule`), `location` |
+| `nav_menu_open` | the phone menu is opened | `location` |
+| `outbound_click` | Zoom, YouTube, Google Maps, `tel:`, srisathguru.com, svmf.in, OpenStreetMap | `link_type` (zoom, youtube, maps, phone, website), `link_url` (first 100 characters), `link_domain`, `label`, `location` |
+| `calendar_add` | an *Add to calendar* button | `session_title`, `session_kind`, `day_label` (Inauguration, Day 2...), `festival_day`, `session_start` (ISO, +05:30) |
+| `share_open` | a poster is tapped | `poster_id` (cover, schedule-1, schedule-2) |
+| `share_method` | a button in the share sheet is tapped | `method` (native, whatsapp, email, copy, download), `poster_id` |
+| `share_complete` | the OS share sheet reports success | `method` (native), `poster_id`, `share_payload` (image or link) |
+| `stream_mount` | the player mounts the day's embed, or the Zoom and YouTube buttons | `festival_day`, `mode` (embed, fallback), `video_id` |
+| `stream_play` | the embed starts playing, once per mount | `festival_day`, `video_id`, `mode` |
+| `section_view` | about, schedule, watch, visit or invite is half on screen (or fills half the screen), once each | `section_id` |
+| `scroll_depth` | the bottom of the screen passes 25, 50, 75 and 100% of the page, once each | `percent_scrolled` |
+
+`location` is the nearest `data-track-section` (`links_bar`, `player`), else the id of
+the enclosing section (`nav`, `home`, `schedule`, `watch`, `visit`, `invite`), else
+`footer`. `label` is `data-track-label`, else the link text. One delegated listener
+reads every click; a new link is tracked with no code, `data-track="<link_type>"`
+overrides the type, and `data-track="none"` opts a link out. `stream_play` uses the
+YouTube player's postMessage channel (`enablejsapi=1&origin=` on the embed), which
+also lets GTM's built-in YouTube Video trigger work.
+
+The share note's link carries
+`?utm_source=share&utm_medium=social&utm_campaign=chidagni2026&utm_content=<poster_id>`
+before the `#day-N` fragment. The live.svmf.in Switchy redirect must pass the query
+string on; if it drops it, those visits show as direct.
+
+### What the container still needs
+
+As published on 29 September 2026 the container holds only a Google tag
+(`G-FTZY5GBWTR`, on Initialization) and a Custom HTML Meta Pixel (`477887163693452`,
+PageView on every page), so page views reach GA4 but none of the events above do yet.
+The Meta Pixel fires on this page too. In tagmanager.google.com:
+
+1. **Variables.** One Data Layer Variable (version 2) per parameter: `label`,
+   `destination`, `location`, `link_type`, `link_url`, `link_domain`, `section_id`,
+   `percent_scrolled`, `poster_id`, `method`, `share_payload`, `festival_day`,
+   `day_label`, `session_title`, `session_kind`, `session_start`, `mode`, `video_id`,
+   `phase`, `days_to_start`.
+2. **Trigger.** Custom Event, "Use regex matching", event name
+   `^(live_state|cta_click|nav_menu_open|outbound_click|calendar_add|share_open|share_method|share_complete|stream_mount|stream_play|section_view|scroll_depth)$`.
+   (Add `recording_play` if the Krishna Utsavam page's event should go too.)
+3. **Tag.** Google Analytics: GA4 Event, measurement ID `G-FTZY5GBWTR`, event name
+   `{{Event}}`, and one event parameter per variable above, same name, value
+   `{{DLV - name}}`. Undefined values are not sent. Fire on the trigger above.
+4. **Preview** on the live URL with Tag Assistant, click through, then **Submit**.
+5. **GA4 Admin.** Register the parameters you want in reports as event-scoped custom
+   dimensions (at least `poster_id`, `method`, `link_type`, `location`, `label`,
+   `section_id`, `phase`, `festival_day`, `session_title`). Mark **`share_method`** and
+   **`calendar_add`** as key events (Admin, Key events, New key event, exact name).
+
+GA4's enhanced measurement sends its own `scroll` (90%) and outbound `click` events;
+the names here are different, so nothing collides.
+
 ## Before the client shares it
 
 The PDF is marked "Proofread". Points to confirm with the organisers:
@@ -130,10 +213,9 @@ The PDF is marked "Proofread". Points to confirm with the organisers:
 5. **About copy.** The two paragraphs under "The fire of consciousness" are ours: the
    invitation has no prose. The foundation description is reused from the Sri Krishna
    Utsavam page.
-6. **YouTube ids.** Fill in `STREAMS` (above) once the broadcasts are scheduled.
+6. **YouTube links.** Fill in `STREAMS` (above) once the broadcasts are scheduled. The kit for scheduling them is in `_source/youtube/` (`BROADCASTS.md`, thumbnails).
 7. **Switchy link.** Point `https://live.svmf.in/chidagni` at the GitHub Pages URL above.
-8. **Analytics.** No tag is installed. The Krishna Utsavam page used GTM container
-   `GTM-5XK8XFPK`; add that snippet (or a new container) to the `<head>` if wanted.
+8. **Analytics.** GTM `GTM-5XK8XFPK` is installed; the GA4 event tags must be configured in the container (see Analytics).
 
 ## Notes on the build
 

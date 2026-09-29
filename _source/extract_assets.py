@@ -180,27 +180,43 @@ for page, name in ((cover, 'cover'), (sched1, 'schedule-1'), (sched2, 'schedule-
     print(f'  posters/{name}  {im.width}x{im.height}')
 
 # ── 7. share card (1200 x 630) and favicon ───────────────────────────
+# WhatsApp shows og:image either as the full landscape card or, often, as a
+# small square cropped from its CENTRE. So everything that matters is a
+# stacked, centred lockup kept inside the middle 630 x 630: wordmark, dates,
+# venue. The photograph's diyas fill the sides, which the square loses.
+# Keep the JPEG well under 300 KB (WhatsApp drops heavier images) and bump
+# ?v= on og:image in index.html whenever this card changes.
 print('share card and favicon')
 W, H = 1200, 630
+SQ = (W - H) // 2                                        # the centre square: x SQ .. SQ + H
 s = max(W / fire.width, H / fire.height)
 card = fire.resize((round(fire.width * s), round(fire.height * s)), Image.LANCZOS)
 card = card.crop(((card.width - W) // 2, card.height - H, (card.width - W) // 2 + W, card.height)).convert('RGBA')
 shade = Image.new('RGBA', (W, H))
 g = ImageDraw.Draw(shade)
-for y in range(H):                                       # dark at the top, where the lockup sits
-    g.line([(0, y), (W, y)], fill=(16, 4, 3, round(215 * max(0, 1 - y / (H * .8)) ** 1.1)))
+for y in range(H):                                       # ember dark at the top, where the wordmark sits
+    g.line([(0, y), (W, y)], fill=(16, 4, 3, round(235 * max(0, 1 - y / (H * .62)) ** 1.2)))
 card.alpha_composite(shade)
-lock = fit(wm, 860, 300)
-card.alpha_composite(lock, ((W - lock.width) // 2, 40))
-band = Image.new('RGBA', (W, 170))
-ImageDraw.Draw(band).rectangle((150, 30, W - 150, 140), fill=(200, 0, 0, 175))
-card.alpha_composite(band.filter(ImageFilter.GaussianBlur(20)), (0, H - 205))
-d = ImageDraw.Draw(card)
-d.text((W // 2, H - 138), '6 to 10 October 2026', font=font('mulish-var.woff2', 44, 800), fill='white', anchor='mm')
-d.text((W // 2, H - 86), 'Bharatiya Vidya Bhavan, Mylapore, Chennai', font=font('mulish-var.woff2', 29, 700),
-       fill='white', anchor='mm')
-card.convert('RGB').save(IMG / 'share.jpg', 'JPEG', quality=86, optimize=True, progressive=True)
-print('  share.jpg 1200x630')
+pool = Image.new('RGBA', (W, H))                         # a soft dark pool right behind the lettering
+ImageDraw.Draw(pool).ellipse((SQ - 20, -60, SQ + H + 20, 300), fill=(16, 4, 3, 150))
+card.alpha_composite(pool.filter(ImageFilter.GaussianBlur(50)))
+lock = fit(wm, H - 70, 230)                              # 560 px wide, inside the centre square
+card.alpha_composite(lock, ((W - lock.width) // 2, 34))
+band = Image.new('RGBA', (W, 240))                       # the cover's red glow under the dates
+ImageDraw.Draw(band).rectangle((SQ - 150, 40, SQ + H + 150, 200), fill=(158, 18, 8, 225))
+card.alpha_composite(band.filter(ImageFilter.GaussianBlur(26)), (0, H - 250))
+text = Image.new('RGBA', (W, H))
+d = ImageDraw.Draw(text)
+d.text((W // 2, H - 150), '6\u201310 October 2026', font=font('mulish-var.woff2', 60, 900),
+       fill='white', anchor='mm')                        # 555 px wide
+d.text((W // 2, H - 88), 'Bharatiya Vidya Bhavan, Mylapore, Chennai', font=font('mulish-var.woff2', 25, 700),
+       fill=(255, 244, 230), anchor='mm')                # 527 px wide
+halo = Image.new('RGBA', (W, H), (16, 4, 3, 0))          # a dark halo so the type holds when shrunk
+halo.putalpha(text.getchannel('A').filter(ImageFilter.GaussianBlur(6)).point(lambda a: min(255, a * 1.4)))
+card.alpha_composite(halo)
+card.alpha_composite(text)
+card.convert('RGB').save(IMG / 'share.jpg', 'JPEG', quality=88, optimize=True, progressive=True)
+print(f"  share.jpg 1200x630  {(IMG / 'share.jpg').stat().st_size // 1024} KB")
 
 fav = Image.new('RGBA', (192, 192))
 ImageDraw.Draw(fav).rounded_rectangle((0, 0, 191, 191), 40, fill=(23, 5, 1, 255))

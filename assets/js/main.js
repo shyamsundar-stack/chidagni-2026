@@ -13,7 +13,8 @@
      One scheduled YouTube broadcast per festival evening, from the
      technician sheet. The key is the festival day in IST, which is
      exactly the date part of every data-start in index.html; the
-     value is that day's video id (the part after watch?v=). The
+     value is that day's YouTube link (any form: watch?v=, youtu.be,
+     /live/) or just the video id. The
      player mounts the right embed on its own, so once these are in
      nothing needs touching while Chidagni runs. Each id keeps working
      afterwards as the day's recording.
@@ -29,6 +30,16 @@
     '2026-10-10': ''
   };
 
+  /* Accept whatever YouTube gives you: a bare id, a watch?v= link, a
+     youtu.be link or a /live/ link. Everything below works with the id. */
+  function videoId(v) {
+    v = String(v || '').trim();
+    var m = v.match(/(?:[?&]v=|youtu\.be\/|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/);
+    if (m) return m[1];
+    return /^[\w-]{11}$/.test(v) ? v : '';
+  }
+  Object.keys(STREAMS).forEach(function (k) { STREAMS[k] = videoId(STREAMS[k]); });
+
   var ZOOM = 'https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09';
   var CHANNEL = 'https://www.youtube.com/@svmf5987/live';
 
@@ -43,6 +54,34 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var hasIO = 'IntersectionObserver' in window;
   var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  /* ── 1b. ANALYTICS ───────────────────────────────────────────
+     Every measurement goes through track(), which pushes a GA4-style
+     event onto the dataLayer for Google Tag Manager (GTM-5XK8XFPK, in
+     index.html). It never throws: measurement must never be the reason
+     the page breaks. Each push names every parameter below, unset ones as
+     undefined, so a value from one event cannot leak into the next through
+     GTM's persistent data model. README.md, "Analytics", lists the events
+     and the container setup GA4 needs to see them. */
+  window.dataLayer = window.dataLayer || [];
+  var TRACK_KEYS = [
+    'label', 'destination', 'location', 'link_type', 'link_url', 'link_domain',
+    'section_id', 'percent_scrolled', 'poster_id', 'method', 'share_payload',
+    'festival_day', 'day_label', 'session_title', 'session_kind', 'session_start',
+    'mode', 'video_id', 'phase', 'days_to_start'
+  ];
+  function track(name, params) {
+    try {
+      var o = { event: name };
+      params = params || {};
+      TRACK_KEYS.forEach(function (k) {
+        var v = params[k];
+        o[k] = (v === '' || v === null) ? undefined : v;
+      });
+      window.dataLayer.push(o);
+    } catch (e) { /* never let measurement break the page */ }
+  }
+  var sharePoster;        // poster id of the open share sheet, for share_method
 
   /* ── 2. SCHEDULE MODEL ───────────────────────────────────── */
   var events = $$('.event').map(function (el) {
@@ -160,7 +199,11 @@
 
     if (id) {
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?playsinline=1&rel=0';
+      /* enablejsapi lets the player report play/pause over postMessage, which
+         both stream_play below and GTM's built-in YouTube trigger rely on */
+      iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) +
+        '?playsinline=1&rel=0&enablejsapi=1' +
+        (/^https?:/.test(location.origin) ? '&origin=' + encodeURIComponent(location.origin) : '');
       iframe.title = 'Chidagni live stream';
       iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
       iframe.allowFullscreen = true;
@@ -168,6 +211,8 @@
       frame.appendChild(iframe);
       player.classList.remove('has-ways');
       mountedDay = day;
+      listenForPlay(iframe, day, id);
+      track('stream_mount', { festival_day: day, mode: 'embed', video_id: id });
       return;
     }
 
@@ -178,14 +223,51 @@
     var ways = document.createElement('div');
     ways.className = 'player__ways';
     ways.innerHTML =
-      '<a class="btn btn--flame" target="_blank" rel="noopener" href="' + ZOOM + '">Open the Zoom room</a>' +
-      '<a class="btn btn--ghost" target="_blank" rel="noopener" href="' + CHANNEL + '">Watch on YouTube</a>';
+      '<a class="btn btn--flame" target="_blank" rel="noopener" data-track-label="player_zoom" href="' + ZOOM + '">Open the Zoom room</a>' +
+      '<a class="btn btn--ghost" target="_blank" rel="noopener" data-track-label="player_youtube" href="' + CHANNEL + '">Watch on YouTube</a>';
     box.appendChild(ways);
     /* lets the CSS drop the fixed 16/9 box so the buttons cannot be clipped */
     player.classList.add('has-ways');
     /* remembered, so the next day puts the waiting card back */
     mountedDay = day;
+    track('stream_mount', { festival_day: day, mode: 'fallback' });
   }
+
+  /* stream_play, once per mounted embed. With enablejsapi=1 the YouTube
+     player posts its state to this window once told someone is listening
+     (the same handshake the IFrame API script does, without loading it).
+     Playing is state 1: "onStateChange" carries it as info, "infoDelivery"
+     as info.playerState. */
+  var yt = { frame: null };
+  function listenForPlay(iframe, day, id) {
+    yt = { frame: iframe, day: day, id: id, heard: false, played: false };
+    var tries = 0;
+    function hello() {
+      if (yt.frame !== iframe || yt.heard || tries++ > 20) return;
+      try {
+        var w = iframe.contentWindow;
+        w.postMessage(JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), 'https://www.youtube.com');
+        w.postMessage(JSON.stringify({ event: 'command', func: 'addEventListener',
+          args: ['onStateChange'], id: 1, channel: 'widget' }), 'https://www.youtube.com');
+      } catch (e) { /* frame gone */ }
+      setTimeout(hello, 500);
+    }
+    iframe.addEventListener('load', hello);
+  }
+  window.addEventListener('message', function (e) {
+    try {
+      if (!yt.frame || e.source !== yt.frame.contentWindow) return;
+      if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(e.origin)) return;
+      yt.heard = true;
+      var d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      if (!d) return;
+      var state = d.event === 'onStateChange' ? d.info : (d.info && d.info.playerState);
+      if (state === 1 && !yt.played) {
+        yt.played = true;
+        track('stream_play', { festival_day: yt.day, video_id: yt.id, mode: 'embed' });
+      }
+    } catch (err) { /* not a YouTube message */ }
+  });
 
   var lastNow = null;
   function tick() {
@@ -284,6 +366,19 @@
     }
   }
 
+  /* live_state, once per page view: which phase of the festival this visit
+     landed in, so traffic can be split into before / live / between / ended */
+  (function () {
+    var now = new Date(), live = currentEvent(now);
+    var phase = live ? 'live' : now < FIRST ? 'before' : now >= LAST ? 'ended' : 'between';
+    track('live_state', {
+      phase: phase,
+      festival_day: istDateKey(now),
+      session_title: live ? live.title : undefined,
+      days_to_start: phase === 'before' ? Math.ceil((FIRST - now) / 86400000) : undefined
+    });
+  })();
+
   tick();
   setInterval(tick, 1000);
 
@@ -320,6 +415,14 @@
       var row = btn.closest('.event');
       var ev = events.filter(function (e) { return e.el === row; })[0];
       if (!ev) return;
+
+      track('calendar_add', {
+        session_title: ev.title,
+        session_kind: ev.kind,
+        day_label: ev.day,
+        festival_day: dayKey(ev),
+        session_start: ev.el.dataset.start
+      });
 
       var body = [
         'BEGIN:VCALENDAR', 'VERSION:2.0', 'CALSCALE:GREGORIAN',
@@ -391,7 +494,9 @@
       toggle.setAttribute('aria-expanded', String(open));
     };
     toggle.addEventListener('click', function () {
-      setMenu(toggle.getAttribute('aria-expanded') !== 'true');
+      var open = toggle.getAttribute('aria-expanded') !== 'true';
+      setMenu(open);
+      if (open) track('nav_menu_open', { location: 'nav' });
     });
     $$('a', links).forEach(function (a) {
       a.addEventListener('click', function () { setMenu(false); });
@@ -421,6 +526,11 @@
        the browser across the redirect, so deep links still land on the right
        day. Change this one line if the public address changes. */
     var SITE = 'https://live.svmf.in/chidagni';
+    /* Campaign tags on the shared link, so GA4 credits the visits a note
+       brings in. One source for every method: the note is written once and
+       then sent by whichever button is tapped. utm_content names the poster.
+       The query goes before the #day-N fragment, never after it. */
+    var UTM = '?utm_source=share&utm_medium=social&utm_campaign=chidagni2026&utm_content=';
 
     /* The note has to end in an actual invitation, not just facts. */
     var TAIL = 'Mini Hall, 2nd Floor, Bharatiya Vidya Bhavan, Mylapore, Chennai. All are welcome.';
@@ -466,7 +576,7 @@
       if (dlg.open) closeShare();         // never call showModal on an open dialog
       lastPoster = btn;
       var img = btn.dataset.img;
-      var url = SITE + (btn.dataset.anchor || '');
+      var url = SITE + UTM + encodeURIComponent(img) + (btn.dataset.anchor || '');
       current = {
         img: img,
         url: url,
@@ -485,6 +595,8 @@
       if (typeof dlg.showModal === 'function') dlg.showModal();
       else dlg.setAttribute('open', '');
       document.documentElement.style.overflow = 'hidden';
+      sharePoster = img;
+      track('share_open', { poster_id: img });
       /* focus the heading, not the textarea: opening a phone keyboard over
          the sheet the moment it appears is hostile */
       $('.share__h', dlg).setAttribute('tabindex', '-1');
@@ -514,7 +626,11 @@
         var p;
         try { p = navigator.share(payload); } catch (e) { p = Promise.reject(e); }
 
-        p.then(function () { say('Thank you for passing it on.'); })
+        var sent = payload.files ? 'image' : 'link';
+        p.then(function () {
+          say('Thank you for passing it on.');
+          track('share_complete', { method: 'native', poster_id: current && current.img, share_payload: sent });
+        })
          .catch(function (err) {
            if (err && err.name === 'AbortError') { say(''); return; }
            say('Your browser could not open the share menu. Use WhatsApp or email instead.');
@@ -551,7 +667,119 @@
     });
   }
 
-  /* ── 7. REVEAL ON SCROLL ─────────────────────────────────── */
+  /* ── 7. ANALYTICS: CLICKS, SECTIONS, SCROLL ──────────────────
+     One delegated listener for every link and tagged control:
+     - "#..." links            cta_click      (label, destination, location)
+     - off-site, tel:, mailto: outbound_click (link_type, link_url, ...)
+     - [data-track="share"]    share_method   (method, poster_id)
+     link_type comes from data-track when present, else from the host.
+     label is data-track-label, else the link text. location is the
+     nearest [data-track-section], else the enclosing section's id.     */
+  function slug(t) {
+    return String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 60);
+  }
+  function labelOf(el) {
+    return el.getAttribute('data-track-label') || slug(el.textContent) || slug(el.getAttribute('aria-label'));
+  }
+  function whereIs(el) {
+    var tagged = el.closest('[data-track-section]');
+    if (tagged) return tagged.getAttribute('data-track-section');
+    var box = el.closest('section[id], dialog[id], header[id], footer');
+    return box ? (box.id || box.tagName.toLowerCase()) : 'page';
+  }
+  function linkType(u) {
+    var h = u.hostname.replace(/^www\./, '');
+    if (u.protocol === 'tel:') return 'phone';
+    if (u.protocol === 'mailto:') return 'email';
+    if (/(^|\.)zoom\.us$/.test(h)) return 'zoom';
+    if (/(^|\.)(youtube\.com|youtu\.be)$/.test(h)) return 'youtube';
+    if (/^maps\.(google\.|app\.goo\.gl$)/.test(h) ||
+        (/(^|\.)google\.[a-z.]+$/.test(h) && /^\/maps/.test(u.pathname))) return 'maps';
+    if (/(^|\.)(wa\.me|whatsapp\.com)$/.test(h)) return 'whatsapp';
+    return 'website';
+  }
+
+  document.addEventListener('click', function (e) {
+    try {
+      var el = e.target && e.target.closest && e.target.closest('a[href], [data-track]');
+      if (!el) return;
+      var kind = el.getAttribute('data-track');
+      if (kind === 'none') return;
+      if (kind === 'share') {
+        track('share_method', { method: el.getAttribute('data-track-label'), poster_id: sharePoster });
+        return;
+      }
+      if (el.closest('#shareDlg')) return;
+      var href = el.getAttribute('href') || '';
+      if (href.charAt(0) === '#') {
+        if (href.length > 1) track('cta_click', { label: labelOf(el), destination: href, location: whereIs(el) });
+        return;
+      }
+      var u = new URL(el.href, location.href);
+      /* skips blob: (the calendar download clicks one), javascript:, data: */
+      if (!/^(https?|tel|mailto):$/.test(u.protocol)) return;
+      if (/^https?:$/.test(u.protocol) && u.host === location.host) return;
+      track('outbound_click', {
+        link_type: kind || linkType(u),
+        link_url: u.href.slice(0, 100),        // GA4 truncates values at 100
+        link_domain: u.hostname.replace(/^www\./, ''),
+        label: labelOf(el),
+        location: whereIs(el)
+      });
+    } catch (err) { /* never block the click */ }
+  });
+
+  /* section_view, once per section. "Seen" is half the section on screen,
+     or, for a section taller than two screens (the schedule on a phone),
+     the section filling half the viewport. */
+  if (hasIO) {
+    var seenSec = {};
+    var steps = [];
+    for (var st = 0; st <= 20; st++) steps.push(st / 20);
+    var secIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var id = en.target.id;
+        if (!en.isIntersecting || seenSec[id]) return;
+        var vh = (en.rootBounds && en.rootBounds.height) || window.innerHeight;
+        if (en.intersectionRatio >= 0.5 || en.intersectionRect.height >= vh * 0.5) {
+          seenSec[id] = true;
+          secIO.unobserve(en.target);
+          track('section_view', { section_id: id });
+        }
+      });
+    }, { threshold: steps });
+    ['about', 'schedule', 'watch', 'visit', 'invite'].forEach(function (id) {
+      var sec = document.getElementById(id);
+      if (sec) secIO.observe(sec);
+    });
+  }
+
+  /* scroll_depth at 25/50/75/100, each once. Measured at the bottom edge of
+     the viewport, as GA4's own scroll event is. */
+  var DEPTHS = [25, 50, 75, 100], depthHit = {}, depthQueued = false;
+  function checkDepth() {
+    depthQueued = false;
+    try {
+      var doc = document.documentElement;
+      var bottom = (window.pageYOffset || doc.scrollTop) + window.innerHeight;
+      var pct = bottom >= doc.scrollHeight - 4 ? 100 : bottom / doc.scrollHeight * 100;
+      DEPTHS.forEach(function (d) {
+        if (pct >= d && !depthHit[d]) {
+          depthHit[d] = true;
+          track('scroll_depth', { percent_scrolled: d });
+        }
+      });
+      if (depthHit[100]) window.removeEventListener('scroll', onScrollDepth);
+    } catch (e) { /* ignore */ }
+  }
+  function onScrollDepth() {
+    if (depthQueued) return;
+    depthQueued = true;
+    (window.requestAnimationFrame || setTimeout)(checkDepth);
+  }
+  window.addEventListener('scroll', onScrollDepth, { passive: true });
+
+  /* ── 8. REVEAL ON SCROLL ─────────────────────────────────── */
   if (hasIO && !reduceMotion) {
     var targets = $$('.about__text, .about__gurus, .day, .devis, .watch__copy, .player, .visit__card, .sec-head, .strip li');
     targets.forEach(function (el) { el.classList.add('reveal'); });
