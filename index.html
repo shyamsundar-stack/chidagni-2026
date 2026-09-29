@@ -3,6 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Tracked links. Every link this page hands out (share notes, calendar
+     reminders) is live.svmf.in/chidagni#go=<source>.<item>[.<target>]. The
+     fragment survives the Switchy redirect whatever Switchy does with query
+     strings; this turns it into UTM tags before GTM reads the URL, and leaves
+     the target (#day-2, or yt-<date> for "straight to YouTube") for main.js. -->
+<script>(function(){var m=location.hash.match(/^#go=([a-z]+)\.([\w-]+)(?:\.([\w-]+))?$/);
+if(!m||!history.replaceState)return;var t=m[3]||'';
+window.__go={source:m[1],item:m[2],target:t};
+var q='utm_source='+m[1]+'&utm_medium='+({share:'social',calendar:'reminder'}[m[1]]||'referral')+
+'&utm_campaign=chidagni2026&utm_content='+m[2];
+history.replaceState(null,'',location.pathname+'?'+q+(t?'#'+(t.indexOf('yt-')===0?'watch':t):''));})();</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -14,11 +25,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="description" content="Five evenings of lectures, namasankirtanam, harikatha and Carnatic music. 6 to 10 October 2026 at the Mini Hall, Bharatiya Vidya Bhavan, Mylapore, Chennai. Streamed live. Jointly organised by Sri Vishnu Mohan Foundation, Bharatiya Vidya Bhavan and Sri Gnana Advaitha Peetam.">
 <!-- Link previews (WhatsApp, Facebook, Telegram, iMessage, X). Kept high in the
      <head>: WhatsApp reads only the start of the page. Bump ?v= on the image
-     URLs after changing share.jpg so cached thumbnails refresh. -->
+     URLs after changing share.jpg so cached thumbnails refresh. The image has to
+     name the real host; move it to a custom domain when one is set up. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Chidagni">
 <meta property="og:locale" content="en_IN">
-<meta property="og:url" content="https://shyamsundar-stack.github.io/chidagni-2026/">
+<meta property="og:url" content="https://live.svmf.in/chidagni">
 <meta property="og:title" content="Chidagni 2026, The Fire of Consciousness Festival">
 <meta property="og:description" content="6–10 October 2026 at Bharatiya Vidya Bhavan, Mylapore, Chennai. Five evenings of lectures, harikatha and Carnatic music. All are welcome.">
 <meta property="og:image" content="https://shyamsundar-stack.github.io/chidagni-2026/assets/img/share.jpg?v=2">
@@ -39,7 +51,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="icon" href="assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/favicon.png">
-<link rel="canonical" href="https://shyamsundar-stack.github.io/chidagni-2026/">
+<link rel="canonical" href="https://live.svmf.in/chidagni">
 
 <link rel="preload" href="assets/fonts/mulish-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/wordmark.webp" as="image" fetchpriority="high">
@@ -169,44 +181,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li class="day" id="day-1">
           <h3 class="day__head"><span class="day__t"><span class="day__n">Inauguration</span> <time datetime="2026-10-06">Tuesday 6 October</time></span></h3>
           <div class="day__events">
-            <article class="event event--rite" data-start="2026-10-06T17:00:00+05:30" data-end="2026-10-06T17:05:00+05:30">
-              <p class="event__time"><time datetime="2026-10-06T17:00+05:30">5:00 pm</time></p>
-              <div class="event__body">
-                <h4 class="event__who event__who--sm">Welcome and lighting of the lamp</h4>
+            <div class="inaug" data-start="2026-10-06T17:00:00+05:30" data-end="2026-10-06T18:45:00+05:30">
+              <article class="event event--rite" data-start="2026-10-06T17:00:00+05:30" data-end="2026-10-06T17:05:00+05:30">
+                <p class="event__time"><time datetime="2026-10-06T17:00+05:30">5:00 pm</time></p>
+                <div class="event__body">
+                  <h4 class="event__who event__who--sm">Welcome and lighting of the lamp</h4>
+                </div>
+              </article>
+              <article class="event" data-start="2026-10-06T17:05:00+05:30" data-end="2026-10-06T17:10:00+05:30">
+                <p class="event__time"><time datetime="2026-10-06T17:05+05:30">5:05 pm</time></p>
+                <div class="event__body">
+                  <p class="event__kind">Anugraha Bhashanam</p>
+                  <h4 class="event__who">Swami Shrihariprasad</h4>
+                  <p class="event__role">Founder and Managing Trustee, Sri Vishnu Mohan Foundation</p>
+                </div>
+              </article>
+              <article class="event" data-start="2026-10-06T17:10:00+05:30" data-end="2026-10-06T17:15:00+05:30">
+                <p class="event__time"><time datetime="2026-10-06T17:10+05:30">5:10 pm</time></p>
+                <div class="event__body">
+                  <p class="event__kind">Chief Guest Address</p>
+                  <h4 class="event__who">Padma Shri Dr. Nalli Kuppuswami Chetti</h4>
+                  <p class="event__role">Chairman, Nalli Silks. Vice Chairman, Bharatiya Vidya Bhavan, Chennai Kendra.</p>
+                </div>
+              </article>
+              <article class="event" data-start="2026-10-06T17:15:00+05:30" data-end="2026-10-06T17:20:00+05:30">
+                <p class="event__time"><time datetime="2026-10-06T17:15+05:30">5:15 pm</time></p>
+                <div class="event__body">
+                  <p class="event__kind">Address</p>
+                  <h4 class="event__who">Sri K. N. Ramaswamy</h4>
+                  <p class="event__role">Director, Bharatiya Vidya Bhavan, Chennai Kendra</p>
+                </div>
+              </article>
+              <article class="event" data-start="2026-10-06T17:20:00+05:30" data-end="2026-10-06T18:45:00+05:30">
+                <p class="event__time"><time datetime="2026-10-06T17:20+05:30">5:20 pm</time></p>
+                <div class="event__body">
+                  <p class="event__kind">Inaugural Address</p>
+                  <h4 class="event__who">Sri K. Giridhara Sarma</h4>
+                  <p class="event__role">Disciple of Late Brahmasri Goda Venkateshwara Sastrigal</p>
+                </div>
+              </article>
+              <div class="acts acts--inaug">
+                <button class="ics" type="button" data-cal="inauguration" data-cal-title="Inauguration of Chidagni 2026" data-cal-kind="Lighting of the lamp, Anugraha Bhashanam by Swami Shrihariprasad, Chief Guest Address by Padma Shri Dr. Nalli Kuppuswami Chetti, Address by Sri K. N. Ramaswamy, Inaugural Address by Sri K. Giridhara Sarma"><span>Add to calendar</span></button>
+                <button class="ics ics--share" type="button" data-card="inauguration" data-anchor="day-1"
+                  data-msg="Chidagni 2026 opens on Tuesday 6 October at 5:00 pm with the lighting of the lamp, Anugraha Bhashanam by Swami Shrihariprasad, and addresses by Padma Shri Dr. Nalli Kuppuswami Chetti, Sri K. N. Ramaswamy and Sri K. Giridhara Sarma."><span>Share</span></button>
               </div>
-            </article>
-            <article class="event" data-start="2026-10-06T17:05:00+05:30" data-end="2026-10-06T17:10:00+05:30">
-              <p class="event__time"><time datetime="2026-10-06T17:05+05:30">5:05 pm</time></p>
-              <div class="event__body">
-                <p class="event__kind">Anugraha Bhashanam</p>
-                <h4 class="event__who">Swami Shrihariprasad</h4>
-                <p class="event__role">Founder and Managing Trustee, Sri Vishnu Mohan Foundation</p>
-              </div>
-            </article>
-            <article class="event" data-start="2026-10-06T17:10:00+05:30" data-end="2026-10-06T17:15:00+05:30">
-              <p class="event__time"><time datetime="2026-10-06T17:10+05:30">5:10 pm</time></p>
-              <div class="event__body">
-                <p class="event__kind">Chief Guest Address</p>
-                <h4 class="event__who">Padma Shri Dr. Nalli Kuppuswami Chetti</h4>
-                <p class="event__role">Chairman, Nalli Silks. Vice Chairman, Bharatiya Vidya Bhavan, Chennai Kendra.</p>
-              </div>
-            </article>
-            <article class="event" data-start="2026-10-06T17:15:00+05:30" data-end="2026-10-06T17:20:00+05:30">
-              <p class="event__time"><time datetime="2026-10-06T17:15+05:30">5:15 pm</time></p>
-              <div class="event__body">
-                <p class="event__kind">Address</p>
-                <h4 class="event__who">Sri K. N. Ramaswamy</h4>
-                <p class="event__role">Director, Bharatiya Vidya Bhavan, Chennai Kendra</p>
-              </div>
-            </article>
-            <article class="event" data-start="2026-10-06T17:20:00+05:30" data-end="2026-10-06T18:45:00+05:30">
-              <p class="event__time"><time datetime="2026-10-06T17:20+05:30">5:20 pm</time></p>
-              <div class="event__body">
-                <p class="event__kind">Inaugural Address</p>
-                <h4 class="event__who">Sri K. Giridhara Sarma</h4>
-                <p class="event__role">Disciple of Late Brahmasri Goda Venkateshwara Sastrigal</p>
-              </div>
-            </article>
+            </div>
             <article class="event event--star" data-start="2026-10-06T18:45:00+05:30" data-end="2026-10-06T20:15:00+05:30">
               <p class="event__time"><time datetime="2026-10-06T18:45+05:30">6:45 pm</time></p>
               <div class="event__body">
@@ -217,7 +236,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <li><span>Mridangam</span> Vid. Sriram Srinivasan</li>
                   <li><span>Ghatam</span> Vid. Ganapathy</li>
                 </ul>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="ritvik"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="ritvik" data-anchor="day-1"
+                    data-msg="Vid. Ritvik Y V sings at Chidagni 2026: a Carnatic vocal concert on Tuesday 6 October at 6:45 pm, with Vid. Parur M K Ananthabalasubramaniam (violin), Vid. Sriram Srinivasan (mridangam) and Vid. Ganapathy (ghatam)."><span>Share</span></button>
+                </div>
               </div>
             </article>
           </div>
@@ -231,7 +254,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--talk">Lecture</span> on “Sita Devi”</p>
                 <h4 class="event__who">Dr. Priya Ramachandran</h4>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="priya"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="priya" data-anchor="day-2"
+                    data-msg="Dr. Priya Ramachandran speaks on Sita Devi at Chidagni 2026, on Wednesday 7 October at 5:30 pm."><span>Share</span></button>
+                </div>
               </div>
             </article>
             <article class="event event--star" data-start="2026-10-07T18:45:00+05:30" data-end="2026-10-07T20:15:00+05:30">
@@ -239,7 +266,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--bhakti">Namasankirtanam</span></p>
                 <h4 class="event__who">Dr. R. Ganesh and Party</h4>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="ganesh"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="ganesh" data-anchor="day-2"
+                    data-msg="Namasankirtanam by Dr. R. Ganesh and Party at Chidagni 2026, on Wednesday 7 October at 6:45 pm."><span>Share</span></button>
+                </div>
               </div>
             </article>
           </div>
@@ -253,7 +284,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--talk">Lecture</span> on “Moksha-Pradayini”</p>
                 <h4 class="event__who">Prof. K. Srinivasan</h4>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="srinivasan"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="srinivasan" data-anchor="day-3"
+                    data-msg="Prof. K. Srinivasan speaks on Moksha-Pradayini at Chidagni 2026, on Thursday 8 October at 5:30 pm."><span>Share</span></button>
+                </div>
               </div>
             </article>
             <article class="event event--star" data-start="2026-10-08T18:45:00+05:30" data-end="2026-10-08T20:15:00+05:30">
@@ -265,7 +300,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <li><span>Harmonium</span> Vid. R. Arvindh</li>
                   <li><span>Mridangam</span> Vid. Aravind Davay</li>
                 </ul>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="radha"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="radha" data-anchor="day-3"
+                    data-msg="Dr. Radha Bhaskar and her disciples sing at Chidagni 2026: a Carnatic vocal concert on Thursday 8 October at 6:45 pm."><span>Share</span></button>
+                </div>
               </div>
             </article>
           </div>
@@ -283,7 +322,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <li><span>Violin</span> Thirumarugal Dr. S. Dinesh Kumar</li>
                   <li><span>Mridangam</span> Vid. S. Anand</li>
                 </ul>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="sinddhuja"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="sinddhuja" data-anchor="day-4"
+                    data-msg="Kalarathna Vid. U. E. Sinddhuja presents a harikatha on Meena Lochani, Paasha Mochani at Chidagni 2026, on Friday 9 October at 6:00 pm."><span>Share</span></button>
+                </div>
               </div>
             </article>
           </div>
@@ -301,7 +344,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <li><span>Mridangam</span> Vid. Nagaraj Narayanan</li>
                   <li><span>Ghatam</span> Vid. J. Ramadas</li>
                 </ul>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
+                <div class="acts">
+                  <button class="ics" type="button" data-cal="narmadha" data-cal-title="Chidagni: Dr. M. Narmadha, Carnatic violin concert"><span>Add to calendar</span></button>
+                  <button class="ics ics--share" type="button" data-card="narmadha" data-anchor="day-5"
+                    data-msg="Dr. M. Narmadha plays at Chidagni 2026: a Carnatic violin concert on Saturday 10 October at 6:00 pm, with Vid. Nagaraj Narayanan (mridangam) and Vid. J. Ramadas (ghatam)."><span>Share</span></button>
+                </div>
               </div>
             </article>
             <article class="event event--rite" data-start="2026-10-10T19:30:00+05:30" data-end="2026-10-10T19:45:00+05:30">
@@ -435,7 +482,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li>
         <button class="poster" type="button" aria-label="Share the schedule for 6 to 8 October"
           data-img="schedule-1" data-anchor="#day-1"
-          data-msg="Chidagni 2026 opens on Tuesday 6 October at 5:00 pm with the inauguration and a Carnatic vocal concert by Vid. Ritvik Y V. Dr. Priya Ramachandran speaks on Sita Devi on Wednesday 7 October, and Prof. K. Srinivasan on Moksha-Pradayini on Thursday 8 October.">
+          data-msg="The Chidagni 2026 programme for Tuesday 6 to Thursday 8 October: the inauguration, two lectures, namasankirtanam and two Carnatic vocal concerts. Evenings begin at 5:00 pm on Tuesday and 5:30 pm on Wednesday and Thursday.">
           <img src="assets/img/posters/schedule-1.webp" alt="Schedule of events, 6 to 8 October" width="900" height="1268" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -443,7 +490,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li>
         <button class="poster" type="button" aria-label="Share the schedule for 9 and 10 October"
           data-img="schedule-2" data-anchor="#day-4"
-          data-msg="Chidagni 2026 closes with a harikatha by Vid. U. E. Sinddhuja on Friday 9 October, and a Carnatic violin concert by Dr. M. Narmadha on Saturday 10 October, both at 6:00 pm.">
+          data-msg="The Chidagni 2026 programme for Friday 9 and Saturday 10 October: a harikatha and a Carnatic violin concert, both at 6:00 pm, with the livestream and Zoom details for joining from anywhere.">
           <img src="assets/img/posters/schedule-2.webp" alt="Schedule of events, 9 and 10 October, with the event details" width="900" height="1268" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -524,8 +571,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   "endDate": "2026-10-10T19:45:00+05:30",
   "eventStatus": "https://schema.org/EventScheduled",
   "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-  "image": "https://shyamsundar-stack.github.io/chidagni-2026/assets/img/share.jpg?v=2",
-  "url": "https://shyamsundar-stack.github.io/chidagni-2026/",
+  "url": "https://live.svmf.in/chidagni",
   "location": [
     {
       "@type": "Place",
@@ -539,7 +585,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         "addressCountry": "IN"
       }
     },
-    { "@type": "VirtualLocation", "url": "https://shyamsundar-stack.github.io/chidagni-2026/#watch" }
+    { "@type": "VirtualLocation", "url": "https://live.svmf.in/chidagni#watch" }
   ],
   "organizer": [
     { "@type": "Organization", "name": "Sri Vishnu Mohan Foundation", "url": "https://www.svmf.in" },

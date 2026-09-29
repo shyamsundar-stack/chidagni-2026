@@ -23,11 +23,11 @@
      YouTube buttons in the player instead of an empty frame.
   ------------------------------------------------------------ */
   var STREAMS = {
-    '2026-10-06': '',
-    '2026-10-07': '',
-    '2026-10-08': '',
-    '2026-10-09': '',
-    '2026-10-10': ''
+    '2026-10-06': 'https://www.youtube.com/watch?v=8ziHMWExnOc',
+    '2026-10-07': 'https://www.youtube.com/watch?v=CHUnsvQ6pP4',
+    '2026-10-08': 'https://www.youtube.com/watch?v=cYGFyqgfhUk',
+    '2026-10-09': 'https://www.youtube.com/watch?v=G5C9AeGgbiE',
+    '2026-10-10': 'https://www.youtube.com/watch?v=s1mDOsg0OzM'
   };
 
   /* Accept whatever YouTube gives you: a bare id, a watch?v= link, a
@@ -382,82 +382,126 @@
   tick();
   setInterval(tick, 1000);
 
-  /* ── 4. ADD TO CALENDAR (.ics built in the browser) ──────── */
+  /* ── 4. ADD TO CALENDAR ──────────────────────────────────────
+     Each button opens the phone's own calendar with the event filled in:
+       Android      Google Calendar's "new event" screen (the app, if installed)
+       iPhone, Mac  the .ics in assets/cal/, which Safari hands to Calendar
+       elsewhere    a two-item menu: Google Calendar, or Apple / Outlook (.ics)
+     The .ics files are written by _source/make_calendar.py from this page;
+     re-run it after changing a time or name. Both carry the same text.
+
+     The event's link is live.svmf.in/chidagni#go=calendar.<slug>.yt-<date>.
+     Tapped from the reminder, the page records it and goes straight on to
+     that evening's YouTube stream, looked up at that moment, so entries saved
+     before the stream links existed still work (section 4b).            */
+  var SITE = 'https://live.svmf.in/chidagni';
+  var isAndroid = /Android/i.test(navigator.userAgent);
+  var isApple = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                (/Macintosh/i.test(navigator.userAgent) && 'ontouchend' in document) ||
+                (/Macintosh/i.test(navigator.userAgent) && /Safari/i.test(navigator.userAgent) && !/Chrome|Firefox|Edg/i.test(navigator.userAgent));
+
   function stamp(d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
-  function esc(t) {
-    return String(t).replace(/[\\;,]/g, function (c) { return '\\' + c; }).replace(/\n/g, '\\n');
-  }
-  /* RFC 5545 3.1 folds at 75 OCTETS, not characters. Artist names carry
-     accented and Devanagari characters, so measure real UTF-8 length. */
-  var enc = window.TextEncoder ? new TextEncoder() : null;
-  function octets(str) { return enc ? enc.encode(str).length : str.length; }
 
-  function fold(line) {
-    if (octets(line) <= 75) return line;
-    var out = '', run = '', limit = 75;    /* first line: 75 octets */
-    for (var i = 0; i < line.length; i++) {
-      var ch = line[i];
-      /* never split a surrogate pair across a fold */
-      if (/[\uD800-\uDBFF]/.test(ch) && i + 1 < line.length) ch += line[++i];
-      if (octets(run + ch) > limit) {
-        out += (out ? '\r\n ' : '') + run;
-        run = ch;
-        limit = 74;                        /* leading space eats one of the 75 */
-      } else {
-        run += ch;
-      }
-    }
-    return out + (out ? '\r\n ' : '') + run;
+  /* one calendar entry per button: the enclosing session, or the whole
+     inauguration block, which carries its own data-start / data-end */
+  function calEntry(btn) {
+    var box = btn.closest('[data-start]');
+    if (!box) return null;
+    var who = text($('.event__who', box));
+    var kind = text($('.event__kind', box));
+    var title = btn.dataset.calTitle || ('Chidagni: ' + who + (kind ? ', ' + kind : ''));
+    var start = new Date(box.dataset.start), end = new Date(box.dataset.end);
+    var day = box.dataset.start.slice(0, 10);
+    var slug = btn.dataset.cal;
+    var link = SITE + '#go=calendar.' + slug + '.yt-' + day;
+    var desc = (btn.dataset.calKind || kind || '') + '\n\n' +
+      'Watch live on YouTube: ' + link + '\n' +
+      'Or join on Zoom: ' + ZOOM + ' (Meeting ID 876 9213 5267, password Krishna)\n\n' +
+      'Chidagni 2026, the Fire of Consciousness Festival. ' + VENUE + '. All are welcome.';
+    return { slug: slug, title: title, start: start, end: end, day: day, link: link, desc: desc,
+             who: who || title, kind: btn.dataset.calKind ? 'Inauguration' : kind };
   }
 
-  $$('[data-ics]').forEach(function (btn) {
+  function googleUrl(c) {
+    return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent(c.title) +
+      '&dates=' + stamp(c.start) + '/' + stamp(c.end) +
+      '&details=' + encodeURIComponent(c.desc) +
+      '&location=' + encodeURIComponent(VENUE) +
+      '&ctz=Asia/Kolkata';
+  }
+  function icsUrl(c) { return 'assets/cal/' + c.slug + '.ics'; }
+
+  var openMenu = null;
+  function closeMenu() { if (openMenu) { openMenu.remove(); openMenu = null; } }
+  document.addEventListener('click', function (e) {
+    if (openMenu && !openMenu.contains(e.target) && !e.target.closest('[data-cal]')) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+  function calTrack(c, method) {
+    track('calendar_add', {
+      session_title: c.who, session_kind: c.kind, festival_day: c.day,
+      session_start: c.start.toISOString(), method: method, label: c.slug
+    });
+  }
+
+  $$('[data-cal]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var row = btn.closest('.event');
-      var ev = events.filter(function (e) { return e.el === row; })[0];
-      if (!ev) return;
+      var c = calEntry(btn);
+      if (!c) return;
+      if (isAndroid) { calTrack(c, 'google'); window.open(googleUrl(c), '_blank', 'noopener'); return; }
+      if (isApple) { calTrack(c, 'ics'); location.href = icsUrl(c); return; }
 
-      track('calendar_add', {
-        session_title: ev.title,
-        session_kind: ev.kind,
-        day_label: ev.day,
-        festival_day: dayKey(ev),
-        session_start: ev.el.dataset.start
+      /* desktop: let them pick */
+      var again = openMenu && openMenu.previousElementSibling === btn;
+      closeMenu();
+      if (again) return;
+      var menu = document.createElement('span');
+      menu.className = 'calmenu';
+      menu.setAttribute('role', 'menu');
+      menu.innerHTML =
+        '<a role="menuitem" target="_blank" rel="noopener" data-m="google">Google Calendar</a>' +
+        '<a role="menuitem" data-m="ics">Apple, Outlook (.ics)</a>';
+      $('[data-m="google"]', menu).href = googleUrl(c);
+      $('[data-m="ics"]', menu).href = icsUrl(c);
+      $('[data-m="ics"]', menu).setAttribute('download', 'chidagni-2026-' + c.slug + '.ics');
+      $$('a', menu).forEach(function (a) {
+        a.addEventListener('click', function () { calTrack(c, a.dataset.m); setTimeout(closeMenu, 50); });
       });
-
-      var body = [
-        'BEGIN:VCALENDAR', 'VERSION:2.0', 'CALSCALE:GREGORIAN',
-        'PRODID:-//SVMF//Chidagni 2026//EN',
-        'BEGIN:VEVENT',
-        'UID:' + stamp(ev.start) + '-svmf@svmf.in',
-        'DTSTAMP:' + stamp(new Date()),
-        'DTSTART:' + stamp(ev.start),
-        'DTEND:' + stamp(ev.end),
-        /* keep the session type in the title: "Lecture on Sita Devi, Dr. Priya
-           Ramachandran" is far more use in a calendar than the name alone */
-        'SUMMARY:' + esc((ev.kind ? ev.kind + ', ' : '') + ev.title + ' (Chidagni)'),
-        'DESCRIPTION:' + esc((ev.kind ? ev.kind + '. ' : '') +
-          'Chidagni 2026, the Fire of Consciousness Festival. Jointly organised by ' +
-          'Sri Vishnu Mohan Foundation, Bharatiya Vidya Bhavan and Sri Gnana Advaitha Peetam. ' +
-          'All are welcome. Live on Zoom (ID 876 9213 5267, password Krishna): ' + ZOOM),
-        'LOCATION:' + esc(VENUE),
-        'END:VEVENT', 'END:VCALENDAR'
-      ].map(fold).join('\r\n');
-
-      var url = URL.createObjectURL(new Blob([body], { type: 'text/calendar;charset=utf-8' }));
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = ev.title.replace(/[^\w]+/g, '-').replace(/^-|-$/g, '').toLowerCase() + '-chidagni-2026.ics';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-
-      var was = btn.textContent;
-      btn.textContent = 'Saved';
-      btn.classList.add('is-done');
-      setTimeout(function () { btn.textContent = was; btn.classList.remove('is-done'); }, 2400);
+      btn.insertAdjacentElement('afterend', menu);
+      openMenu = menu;
+      $('a', menu).focus({ preventScroll: true });
     });
   });
+
+  /* ── 4b. ARRIVING FROM A TRACKED LINK ─────────────────────────
+     The head script has already turned #go=… into UTM tags. A calendar
+     reminder (target yt-<date>) goes straight on to that evening's YouTube
+     stream once GTM has sent the visit; with no stream link yet, the page
+     simply stays on the player.                                        */
+  (function () {
+    var go = window.__go;
+    if (!go) return;
+    var yt = /^yt-(\d{4}-\d{2}-\d{2})$/.exec(go.target || '');
+    var id = yt && STREAMS[yt[1]];
+    var left = false;
+    function leave() {
+      if (left) return;
+      left = true;
+      location.replace('https://www.youtube.com/watch?v=' + encodeURIComponent(id));
+    }
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'tracked_link_open', link_source: go.source, link_item: go.item,
+        link_target: go.target || undefined, festival_day: yt ? yt[1] : undefined,
+        redirect: id ? 'youtube' : 'page',
+        eventCallback: id ? leave : undefined, eventTimeout: id ? 1500 : undefined
+      });
+    } catch (e) { /* tracking must never block the viewer */ }
+    if (id) setTimeout(leave, 1800);     // GTM blocked or slow: go anyway
+  })();
 
   /* ── 5. NAV ──────────────────────────────────────────────── */
   var nav = $('#nav'), toggle = $('#navToggle'), links = $('#navLinks');
@@ -509,9 +553,11 @@
     });
   }
 
-  /* ── 6. SHARE A POSTER ───────────────────────────────────────
-     Tapping a poster opens a sheet with a note already written for that
-     artist. Where the browser has a real share sheet (nearly all phones)
+  /* ── 6. SHARE ────────────────────────────────────────────────
+     Two kinds of button open the same sheet: the three printed pages in the
+     "Send the invitation" strip (.poster, data-img), and the Share button on
+     every session (data-card: that artist's card in assets/img/cards/). Each
+     carries its own note in data-msg. Where the browser has a real share sheet (nearly all phones)
      we hand it the poster image itself, so WhatsApp sends the picture and
      not just a link. Everywhere else there are explicit buttons.        */
   var dlg = $('#shareDlg');
@@ -521,16 +567,10 @@
     var btnNative = $('#shareNative'), aWa = $('#shareWa'), aMail = $('#shareMail');
     var btnCopy = $('#shareCopy'), aDl = $('#shareDl');
     var current = null;
-    /* The branded link people actually see and forward. Switchy redirects it
-       to the live site and tracks the click. The #day-N fragment is kept by
-       the browser across the redirect, so deep links still land on the right
-       day. Change this one line if the public address changes. */
-    var SITE = 'https://live.svmf.in/chidagni';
-    /* Campaign tags on the shared link, so GA4 credits the visits a note
-       brings in. One source for every method: the note is written once and
-       then sent by whichever button is tapped. utm_content names the poster.
-       The query goes before the #day-N fragment, never after it. */
-    var UTM = '?utm_source=share&utm_medium=social&utm_campaign=chidagni2026&utm_content=';
+    /* The link in every note is the Switchy link (SITE, section 4) with a
+       tracked fragment, #go=share.<card>.<day-N>: the head script turns it into
+       utm_source=share&utm_content=<card> and lands on that day. A fragment,
+       not a query, because browsers keep it across the Switchy redirect. */
 
     /* The note has to end in an actual invitation, not just facts. */
     var TAIL = 'Mini Hall, 2nd Floor, Bharatiya Vidya Bhavan, Mylapore, Chennai. All are welcome.';
@@ -575,16 +615,20 @@
     function openShare(btn) {
       if (dlg.open) closeShare();         // never call showModal on an open dialog
       lastPoster = btn;
-      var img = btn.dataset.img;
-      var url = SITE + UTM + encodeURIComponent(img) + (btn.dataset.anchor || '');
+      var card = btn.dataset.card;
+      var img = card || btn.dataset.img;
+      var anchor = (btn.dataset.anchor || '').replace(/^#/, '');
+      var url = SITE + '#go=share.' + img + (anchor ? '.' + anchor : '');
       current = {
         img: img,
         url: url,
-        jpg: 'assets/img/posters/' + img + '.jpg'
+        jpg: card ? 'assets/img/cards/' + card + '.jpg' : 'assets/img/posters/' + img + '.jpg'
       };
 
-      picEl.src = 'assets/img/posters/' + img + '.webp';
-      picEl.alt = $('img', btn).alt;
+      picEl.src = card ? current.jpg : 'assets/img/posters/' + img + '.webp';
+      picEl.alt = !card ? $('img', btn).alt : 'Invitation card: ' + (card === 'inauguration'
+        ? 'Inauguration of Chidagni 2026' : text($('.event__who', btn.closest('[data-start]'))));
+      picEl.classList.toggle('is-card', !!card);
       msgEl.value = btn.dataset.msg + '\n' + TAIL + '\n' + ASK + ' ' + url;
       aDl.href = current.jpg;
       aDl.setAttribute('download', 'chidagni-2026-' + img + '.jpg');
@@ -649,7 +693,7 @@
       }
     });
 
-    $$('.poster').forEach(function (btn) {
+    $$('.poster, [data-card]').forEach(function (btn) {
       btn.addEventListener('click', function () { openShare(btn); });
     });
 

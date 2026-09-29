@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+PRODID:-//SVMF//Chidagni 2026//EN
+BEGIN:VEVENT
+UID:srinivasan-2026@chidagni.svmf.in
+DTSTAMP:20260929T174257Z
+DTSTART:20261008T120000Z
+DTEND:20261008T131500Z
+SUMMARY:Chidagni: Prof. K. Srinivasan\, Lecture on “Moksha-Pradayini”
+DESCRIPTION:Lecture on “Moksha-Pradayini”\n\nWatch live on YouTube: htt
+ ps://live.svmf.in/chidagni#go=calendar.srinivasan.yt-2026-10-08\nOr join o
+ n Zoom: https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNS
+ UXRwZz09 (Meeting ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, 
+ the Fire of Consciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidy
+ a Bhavan\, East Mada Street\, Mylapore\, Chennai 600004. All are welcome.
+LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
+ , Mylapore\, Chennai 600004
+URL:https://live.svmf.in/chidagni#go=calendar.srinivasan.yt-2026-10-08
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Chidagni: Prof. K. Srinivasan\, Lecture on “Moksha-Pradayini
+ ”
+END:VALARM
+END:VEVENT
+END:VCALENDAR

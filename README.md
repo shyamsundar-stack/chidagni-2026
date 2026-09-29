@@ -7,7 +7,8 @@ and Sri Gnana Advaitha Peetam.
 
 **Public link: https://live.svmf.in/chidagni** (the "Event page" link printed in the
 invitation; a Switchy redirect to the GitHub Pages site below, with click tracking).
-**GitHub Pages: https://shyamsundar-stack.github.io/chidagni-2026/**
+The GitHub Pages address is under Settings, Pages in this repo. Nothing on the page
+links to it: every link the page hands out uses live.svmf.in/chidagni.
 
 Plain HTML, CSS and JavaScript. No build step, no dependencies, no framework. Built the
 same way as the Sri Krishna Utsavam 2026 page. Colours, artwork, ornaments and schedule
@@ -103,23 +104,65 @@ Those timestamps drive the countdown, the live highlight, the player and the
 - The visible `<time>` is only a label. Edit it to match `data-start`.
 - Keep the `+05:30`. It is what makes the countdown correct for viewers abroad.
 
-## Sharing a poster
+## Sharing
 
-Tapping any page in the "Send the invitation" strip opens a share sheet with that page,
-a note already written for it, and the ways to send it. On phones it hands the OS share
-sheet the **image itself**, so WhatsApp sends the picture, not a bare link. Elsewhere
-there are WhatsApp, email, copy and download actions.
+Two kinds of button open the same share sheet:
 
-The note lives on the button (`data-msg`); the venue line and the closing invitation are
-shared by every card and live in `main.js` as `TAIL` and `ASK`. Each poster exists as
-`.webp` for the page and `.jpg` for sharing; the JPEG is only fetched when the sheet opens.
+- **Share** beside *Add to calendar* on every session: sends that artist's square card
+  from `assets/img/cards/` (built by `_source/make_share_cards.py` from the page's own
+  photograph, wordmark and fonts) with a note about that session.
+- The three printed pages in "Send the invitation": the cover and the two schedule
+  pages, each with a note describing what the page covers.
+
+On phones the sheet hands the OS share menu the **image itself**, so WhatsApp sends the
+picture, not a bare link. Elsewhere there are WhatsApp, email, copy and download
+actions. Each note lives on its button (`data-msg`); the venue line and the closing
+invitation are shared and live in `main.js` as `TAIL` and `ASK`.
+
+## Add to calendar
+
+One entry per session, and one for the whole inauguration (lamp to inaugural address,
+5:00 to 6:45 pm). The button opens the phone's own calendar with the event filled in:
+
+| Device | What opens |
+|---|---|
+| Android | Google Calendar's new-event screen (the app, when installed) |
+| iPhone, iPad, Mac Safari | `assets/cal/<slug>.ics`, which Safari hands to Calendar |
+| Other desktops | a small menu: Google Calendar, or Apple / Outlook (.ics) |
+
+Each entry has a 15-minute reminder (the .ics files; Google uses the person's default)
+and the link `live.svmf.in/chidagni#go=calendar.<slug>.yt-<date>`. Tapped from the
+reminder, the page records the visit and goes straight on to that evening's YouTube
+stream, looked up from `STREAMS` at that moment.
+
+The .ics files are written by `_source/make_calendar.py` (`pip install beautifulsoup4`).
+**Re-run it after changing any time or name.** The Google link is built live in
+`main.js` (`calEntry`) with the same wording; change both together.
+
+## Tracked links and the debrief
+
+Every link the page hands out is the Switchy link plus a fragment:
+`live.svmf.in/chidagni#go=<source>.<item>[.<target>]`. A fragment, because browsers
+keep it across the Switchy redirect whatever Switchy does with query strings. A small
+script at the top of the `<head>` turns it into UTM tags before Tag Manager loads, so
+GA4 files each visit under the right source:
+
+| Link | utm_source | utm_medium | utm_content | Lands on |
+|---|---|---|---|---|
+| Share note from a session card | `share` | `social` | card slug (`ritvik`, `priya`...) | that day |
+| Share note from a printed page | `share` | `social` | `cover`, `schedule-1`, `schedule-2` | that day |
+| Calendar reminder | `calendar` | `reminder` | session slug | YouTube, that evening's stream |
+| The invitation link itself | set in Switchy | set in Switchy | | the page |
+
+All carry `utm_campaign=chidagni2026`. Arrivals also push a `tracked_link_open` event
+(`link_source`, `link_item`, `link_target`, `festival_day`, `redirect`: youtube or page).
 
 ## Link previews
 
 The Open Graph and Twitter tags near the top of the `<head>` give WhatsApp, Facebook,
-Telegram, iMessage and X their preview. `og:url` and `canonical` point at the GitHub
-Pages URL, not live.svmf.in, because scrapers follow `og:url` and the redirect is not
-live yet.
+Telegram, iMessage and X their preview. `og:url` and `canonical` point at
+live.svmf.in/chidagni. The image tags have to name the real host until a custom domain
+is set up; set Switchy's own link preview to the same image, title and description.
 
 - `assets/img/share.jpg` (1200 x 630, about 106 KB) is built by section 7 of
   `_source/extract_assets.py`. WhatsApp often shows only a small square cut from the
@@ -148,8 +191,8 @@ from one event never leaks into the next through GTM's data model.
 | `cta_click` | any in-page link: nav, hero buttons, logo, the countdown's "Watch the stream", skip link | `label`, `destination` (`#schedule`), `location` |
 | `nav_menu_open` | the phone menu is opened | `location` |
 | `outbound_click` | Zoom, YouTube, Google Maps, `tel:`, srisathguru.com, svmf.in, OpenStreetMap | `link_type` (zoom, youtube, maps, phone, website), `link_url` (first 100 characters), `link_domain`, `label`, `location` |
-| `calendar_add` | an *Add to calendar* button | `session_title`, `session_kind`, `day_label` (Inauguration, Day 2...), `festival_day`, `session_start` (ISO, +05:30) |
-| `share_open` | a poster is tapped | `poster_id` (cover, schedule-1, schedule-2) |
+| `calendar_add` | an *Add to calendar* choice | `session_title`, `session_kind`, `festival_day`, `session_start` (ISO), `method` (google, ics), `label` (session slug) |
+| `share_open` | a card or poster is tapped | `poster_id` (card slug, or cover, schedule-1, schedule-2) |
 | `share_method` | a button in the share sheet is tapped | `method` (native, whatsapp, email, copy, download), `poster_id` |
 | `share_complete` | the OS share sheet reports success | `method` (native), `poster_id`, `share_payload` (image or link) |
 | `stream_mount` | the player mounts the day's embed, or the Zoom and YouTube buttons | `festival_day`, `mode` (embed, fallback), `video_id` |
@@ -165,10 +208,7 @@ overrides the type, and `data-track="none"` opts a link out. `stream_play` uses 
 YouTube player's postMessage channel (`enablejsapi=1&origin=` on the embed), which
 also lets GTM's built-in YouTube Video trigger work.
 
-The share note's link carries
-`?utm_source=share&utm_medium=social&utm_campaign=chidagni2026&utm_content=<poster_id>`
-before the `#day-N` fragment. The live.svmf.in Switchy redirect must pass the query
-string on; if it drops it, those visits show as direct.
+Links the page hands out are tagged as described under "Tracked links and the debrief".
 
 ### What the container still needs
 
@@ -181,9 +221,9 @@ The Meta Pixel fires on this page too. In tagmanager.google.com:
    `destination`, `location`, `link_type`, `link_url`, `link_domain`, `section_id`,
    `percent_scrolled`, `poster_id`, `method`, `share_payload`, `festival_day`,
    `day_label`, `session_title`, `session_kind`, `session_start`, `mode`, `video_id`,
-   `phase`, `days_to_start`.
+   `phase`, `days_to_start`, `link_source`, `link_item`, `link_target`, `redirect`.
 2. **Trigger.** Custom Event, "Use regex matching", event name
-   `^(live_state|cta_click|nav_menu_open|outbound_click|calendar_add|share_open|share_method|share_complete|stream_mount|stream_play|section_view|scroll_depth)$`.
+   `^(live_state|cta_click|nav_menu_open|outbound_click|calendar_add|share_open|share_method|share_complete|stream_mount|stream_play|section_view|scroll_depth|tracked_link_open)$`.
    (Add `recording_play` if the Krishna Utsavam page's event should go too.)
 3. **Tag.** Google Analytics: GA4 Event, measurement ID `G-FTZY5GBWTR`, event name
    `{{Event}}`, and one event parameter per variable above, same name, value
@@ -213,7 +253,7 @@ The PDF is marked "Proofread". Points to confirm with the organisers:
 5. **About copy.** The two paragraphs under "The fire of consciousness" are ours: the
    invitation has no prose. The foundation description is reused from the Sri Krishna
    Utsavam page.
-6. **YouTube links.** Fill in `STREAMS` (above) once the broadcasts are scheduled. The kit for scheduling them is in `_source/youtube/` (`BROADCASTS.md`, thumbnails).
+6. **YouTube links.** Done: all five evenings are scheduled on SVMF and in `STREAMS`. The kit used is in `_source/youtube/`.
 7. **Switchy link.** Point `https://live.svmf.in/chidagni` at the GitHub Pages URL above.
 8. **Analytics.** GTM `GTM-5XK8XFPK` is installed; the GA4 event tags must be configured in the container (see Analytics).
 

@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+PRODID:-//SVMF//Chidagni 2026//EN
+BEGIN:VEVENT
+UID:ritvik-2026@chidagni.svmf.in
+DTSTAMP:20260929T174257Z
+DTSTART:20261006T131500Z
+DTEND:20261006T144500Z
+SUMMARY:Chidagni: Vid. Ritvik Y V\, Carnatic vocal concert
+DESCRIPTION:Carnatic vocal concert\n\nWatch live on YouTube: https://live.s
+ vmf.in/chidagni#go=calendar.ritvik.yt-2026-10-06\nOr join on Zoom: https:/
+ /us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Meeti
+ ng ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire of Con
+ sciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East
+  Mada Street\, Mylapore\, Chennai 600004. All are welcome.
+LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
+ , Mylapore\, Chennai 600004
+URL:https://live.svmf.in/chidagni#go=calendar.ritvik.yt-2026-10-06
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Chidagni: Vid. Ritvik Y V\, Carnatic vocal concert
+END:VALARM
+END:VEVENT
+END:VCALENDAR

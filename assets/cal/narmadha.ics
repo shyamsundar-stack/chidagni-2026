@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+PRODID:-//SVMF//Chidagni 2026//EN
+BEGIN:VEVENT
+UID:narmadha-2026@chidagni.svmf.in
+DTSTAMP:20260929T174257Z
+DTSTART:20261010T123000Z
+DTEND:20261010T140000Z
+SUMMARY:Chidagni: Dr. M. Narmadha\, Carnatic violin concert
+DESCRIPTION:Carnatic violin concert\n\nWatch live on YouTube: https://live.
+ svmf.in/chidagni#go=calendar.narmadha.yt-2026-10-10\nOr join on Zoom: http
+ s://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Me
+ eting ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire of 
+ Consciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, E
+ ast Mada Street\, Mylapore\, Chennai 600004. All are welcome.
+LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
+ , Mylapore\, Chennai 600004
+URL:https://live.svmf.in/chidagni#go=calendar.narmadha.yt-2026-10-10
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Chidagni: Dr. M. Narmadha\, Carnatic violin concert
+END:VALARM
+END:VEVENT
+END:VCALENDAR
