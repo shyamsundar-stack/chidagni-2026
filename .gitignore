@@ -1,0 +1,4 @@
+.DS_Store
+Thumbs.db
+*.pdf
+__pycache__/
