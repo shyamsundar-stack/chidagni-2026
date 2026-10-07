@@ -222,6 +222,12 @@ sup{font-size:.58em;line-height:0;position:relative;top:-.05em;vertical-align:su
 }
 
 /* the blurred red band under the dates, with its two gold hairlines */
+/* the day's live player, moved here by main.js while its stream is mounted */
+.hero__live{width:min(780px,100%);scroll-margin-top:84px;text-align:left}
+.hero__live[hidden]{display:none}
+.hero__live .player__cap{color:var(--ivory);text-shadow:0 1px 8px rgb(0 0 0 / .9)}
+/* the Watch section keeps its copy as one column while the player is up top */
+.watch__in:not(:has(.player)){grid-template-columns:minmax(0,1fr);max-width:44rem}
 .hero__band{
   position:relative;margin:0;padding:1.1rem clamp(1.5rem,6vw,4.5rem);
   display:flex;flex-direction:column;gap:.35rem;

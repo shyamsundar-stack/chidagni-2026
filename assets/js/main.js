@@ -179,6 +179,26 @@
 
   /* Yesterday's embed must not sit in the player once its day is over: a tab
      left open overnight would otherwise offer the previous day's recording. */
+  /* While a day's stream is mounted the player sits at the top of the page,
+     under the wordmark; otherwise it lives in the Watch section. It is moved
+     before the embed is created, because moving an iframe reloads it. */
+  var heroLive = $('#heroLive');
+  var playerHome = player ? { parent: player.parentNode, next: player.nextSibling } : null;
+  function placePlayer(top) {
+    if (!player || !heroLive) return;
+    if (top && player.parentNode !== heroLive) {
+      heroLive.appendChild(player);
+      heroLive.hidden = false;
+      player.classList.add('is-in');      // never wait for a scroll reveal up here
+    } else if (!top && player.parentNode === heroLive) {
+      playerHome.parent.insertBefore(player, playerHome.next);
+      heroLive.hidden = true;
+    }
+    var to = top ? '#heroLive' : '#watch';
+    if (watchCta) watchCta.setAttribute('href', to);
+    $$('.count__next a[href="#watch"], .count__next a[href="#heroLive"]').forEach(function (a) { a.setAttribute('href', to); });
+  }
+
   function unmountStream() {
     if (!player || mountedDay === null || frameInitial === null) return;
     var frame = $('.player__frame', player);
@@ -186,6 +206,7 @@
     frame.innerHTML = frameInitial;
     player.classList.remove('has-ways');
     mountedDay = null;
+    placePlayer(false);
     /* the card was rebuilt, so these three nodes are new */
     pBadge = $('#playerBadge');
     pHead = $('#playerHead');
@@ -196,6 +217,7 @@
     if (!player || !day || mountedDay === day) return;
     var frame = $('.player__frame', player);
     var id = STREAMS[day];
+    placePlayer(true);
 
     if (id) {
       var iframe = document.createElement('iframe');
@@ -292,7 +314,8 @@
       countEl.classList.add('is-live');
       grid.hidden = true;
       set(labelEl, 'textContent', 'Live now, ' + live.day);
-      set(nextEl, 'innerHTML', '<b>' + live.title + '</b> is on stage. <a href="#watch">Watch the stream</a>');
+      set(nextEl, 'innerHTML', '<b>' + live.title + '</b> is on stage. <a href="' +
+        (heroLive && !heroLive.hidden ? '#heroLive' : '#watch') + '">Watch the stream</a>');
       if (player) {
         player.dataset.state = 'live';
         set(pBadge, 'textContent', 'Live now');
@@ -390,7 +413,7 @@
      The .ics files are written by _source/make_calendar.py from this page;
      re-run it after changing a time or name. Both carry the same text.
 
-     The event's link is live.svmf.in/chidagni#go=calendar.<slug>.yt-<date>.
+     The event's link is live.svmf.in/chidagni?go=calendar.<slug>.yt-<date>.
      Tapped from the reminder, the page records it and goes straight on to
      that evening's YouTube stream, looked up at that moment, so entries saved
      before the stream links existed still work (section 4b).            */
@@ -413,7 +436,7 @@
     var start = new Date(box.dataset.start), end = new Date(box.dataset.end);
     var day = box.dataset.start.slice(0, 10);
     var slug = btn.dataset.cal;
-    var link = SITE + '#go=calendar.' + slug + '.yt-' + day;
+    var link = SITE + '?go=calendar.' + slug + '.yt-' + day;
     var desc = (btn.dataset.calKind || kind || '') + '\n\n' +
       'Watch live on YouTube: ' + link + '\n' +
       'Or join on Zoom: ' + ZOOM + ' (Meeting ID 876 9213 5267, password Krishna)\n\n' +
@@ -567,10 +590,9 @@
     var btnNative = $('#shareNative'), aWa = $('#shareWa'), aMail = $('#shareMail');
     var btnCopy = $('#shareCopy'), aDl = $('#shareDl');
     var current = null;
-    /* The link in every note is the Switchy link (SITE, section 4) with a
-       tracked fragment, #go=share.<card>.<day-N>: the head script turns it into
-       utm_source=share&utm_content=<card> and lands on that day. A fragment,
-       not a query, because browsers keep it across the Switchy redirect. */
+    /* The link in every note is the Switchy link (SITE, section 4) with
+       ?go=share.<card>.<day-N>: Switchy forwards the query, and the head script
+       turns it into utm_source=share&utm_content=<card> and lands on that day. */
 
     /* The note has to end in an actual invitation, not just facts. */
     var TAIL = 'Mini Hall, 2nd Floor, Bharatiya Vidya Bhavan, Mylapore, Chennai. All are welcome.';
@@ -618,7 +640,7 @@
       var card = btn.dataset.card;
       var img = card || btn.dataset.img;
       var anchor = (btn.dataset.anchor || '').replace(/^#/, '');
-      var url = SITE + '#go=share.' + img + (anchor ? '.' + anchor : '');
+      var url = SITE + '?go=share.' + img + (anchor ? '.' + anchor : '');
       current = {
         img: img,
         url: url,

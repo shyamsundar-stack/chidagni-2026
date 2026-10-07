@@ -5,19 +5,19 @@ METHOD:PUBLISH
 PRODID:-//SVMF//Chidagni 2026//EN
 BEGIN:VEVENT
 UID:ganesh-2026@chidagni.svmf.in
-DTSTAMP:20260929T174257Z
+DTSTAMP:20261007T071334Z
 DTSTART:20261007T131500Z
 DTEND:20261007T144500Z
 SUMMARY:Chidagni: Dr. R. Ganesh and Party\, Namasankirtanam
 DESCRIPTION:Namasankirtanam\n\nWatch live on YouTube: https://live.svmf.in/
- chidagni#go=calendar.ganesh.yt-2026-10-07\nOr join on Zoom: https://us02we
+ chidagni?go=calendar.ganesh.yt-2026-10-07\nOr join on Zoom: https://us02we
  b.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Meeting ID 8
  76 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire of Consciousn
  ess Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada S
  treet\, Mylapore\, Chennai 600004. All are welcome.
 LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
  , Mylapore\, Chennai 600004
-URL:https://live.svmf.in/chidagni#go=calendar.ganesh.yt-2026-10-07
+URL:https://live.svmf.in/chidagni?go=calendar.ganesh.yt-2026-10-07
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M

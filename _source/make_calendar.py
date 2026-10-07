@@ -10,7 +10,7 @@ text, so if you change the wording here, change calEntry() in main.js too.
 Re-run after editing any time or name in the schedule.
 
 The link in each event goes through the Switchy link with a tracked fragment,
-#go=calendar.<slug>.yt-<date>. Tapped from the reminder, the page records the
+?go=calendar.<slug>.yt-<date> (Switchy forwards the query). Tapped from the reminder, the page records the
 visit (utm_source=calendar, utm_content=<slug>) and forwards to that evening's
 YouTube stream, looked up at that moment. The files never need the stream links.
 """
@@ -61,7 +61,7 @@ for btn in soup.select('[data-cal]'):
     who, kind = txt(box.select_one('.event__who')), txt(box.select_one('.event__kind'))
     title = btn.get('data-cal-title') or f'Chidagni: {who}' + (f', {kind}' if kind else '')
     day = box['data-start'][:10]
-    link = f'{SITE}#go=calendar.{slug}.yt-{day}'
+    link = f'{SITE}?go=calendar.{slug}.yt-{day}'
     desc = (f"{btn.get('data-cal-kind') or kind}\n\n"
             f'Watch live on YouTube: {link}\n'
             f'Or join on Zoom: {ZOOM} (Meeting ID 876 9213 5267, password Krishna)\n\n'

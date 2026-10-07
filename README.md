@@ -83,7 +83,7 @@ as it stands.
 | State | When | Shown |
 |---|---|---|
 | soon | before and between sessions | countdown, next session |
-| live | during a scheduled session | red "Live now" badge, the embed (or the Zoom and YouTube buttons), that row lit up in the schedule |
+| live | from `EARLY_MIN` before the day's first item to the end of its last | the player moves to the top of the page under the wordmark, with the embed (or the Zoom and YouTube buttons); red "Live now" badge and that row lit up in the schedule during a session |
 | ended | after 10 October | closing message |
 
 ## Editing the schedule
@@ -131,7 +131,7 @@ One entry per session, and one for the whole inauguration (lamp to inaugural add
 | Other desktops | a small menu: Google Calendar, or Apple / Outlook (.ics) |
 
 Each entry has a 15-minute reminder (the .ics files; Google uses the person's default)
-and the link `live.svmf.in/chidagni#go=calendar.<slug>.yt-<date>`. Tapped from the
+and the link `live.svmf.in/chidagni?go=calendar.<slug>.yt-<date>`. Tapped from the
 reminder, the page records the visit and goes straight on to that evening's YouTube
 stream, looked up from `STREAMS` at that moment.
 
@@ -142,9 +142,11 @@ The .ics files are written by `_source/make_calendar.py` (`pip install beautiful
 ## Tracked links and the debrief
 
 Every link the page hands out is the Switchy link plus a fragment:
-`live.svmf.in/chidagni#go=<source>.<item>[.<target>]`. A fragment, because browsers
-keep it across the Switchy redirect whatever Switchy does with query strings. A small
-script at the top of the `<head>` turns it into UTM tags before Tag Manager loads, so
+`live.svmf.in/chidagni?go=<source>.<item>[.<target>]`. A query parameter, because
+Switchy's redirect is a small script that forwards the query string (an incoming
+`utm_source` even overrides Switchy's own) but drops any `#fragment`. The page also
+still reads `#go=` for links handed out before this change. A small script at the top
+of the `<head>` turns it into UTM tags before Tag Manager loads, so
 GA4 files each visit under the right source:
 
 | Link | utm_source | utm_medium | utm_content | Lands on |

@@ -5,14 +5,14 @@ METHOD:PUBLISH
 PRODID:-//SVMF//Chidagni 2026//EN
 BEGIN:VEVENT
 UID:inauguration-2026@chidagni.svmf.in
-DTSTAMP:20260929T174257Z
+DTSTAMP:20261007T071334Z
 DTSTART:20261006T113000Z
 DTEND:20261006T131500Z
 SUMMARY:Inauguration of Chidagni 2026
 DESCRIPTION:Lighting of the lamp\, Anugraha Bhashanam by Swami Shriharipras
  ad\, Chief Guest Address by Padma Shri Dr. Nalli Kuppuswami Chetti\, Addre
  ss by Sri K. N. Ramaswamy\, Inaugural Address by Sri K. Giridhara Sarma\n\
- nWatch live on YouTube: https://live.svmf.in/chidagni#go=calendar.inaugura
+ nWatch live on YouTube: https://live.svmf.in/chidagni?go=calendar.inaugura
  tion.yt-2026-10-06\nOr join on Zoom: https://us02web.zoom.us/j/87692135267
  ?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Meeting ID 876 9213 5267\, password
   Krishna)\n\nChidagni 2026\, the Fire of Consciousness Festival. Mini Hall
@@ -20,7 +20,7 @@ DESCRIPTION:Lighting of the lamp\, Anugraha Bhashanam by Swami Shriharipras
  nai 600004. All are welcome.
 LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
  , Mylapore\, Chennai 600004
-URL:https://live.svmf.in/chidagni#go=calendar.inauguration.yt-2026-10-06
+URL:https://live.svmf.in/chidagni?go=calendar.inauguration.yt-2026-10-06
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M

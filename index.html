@@ -4,16 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Tracked links. Every link this page hands out (share notes, calendar
-     reminders) is live.svmf.in/chidagni#go=<source>.<item>[.<target>]. The
-     fragment survives the Switchy redirect whatever Switchy does with query
-     strings; this turns it into UTM tags before GTM reads the URL, and leaves
-     the target (#day-2, or yt-<date> for "straight to YouTube") for main.js. -->
-<script>(function(){var m=location.hash.match(/^#go=([a-z]+)\.([\w-]+)(?:\.([\w-]+))?$/);
+     reminders) is live.svmf.in/chidagni?go=<source>.<item>[.<target>].
+     Switchy forwards the query string (its redirect is a script that drops
+     any #fragment), so ?go= survives; #go= is still read for older links.
+     This turns it into UTM tags before GTM reads the URL, and leaves the
+     target (day-2, or yt-<date> for "straight to YouTube") for main.js. -->
+<script>(function(){var g='';try{g=new URLSearchParams(location.search).get('go')||'';}catch(e){}
+if(!g){var h=location.hash.match(/^#go=(.+)$/);g=h?h[1]:'';}
+var m=g.match(/^([a-z]+)\.([\w-]+)(?:\.([\w-]+))?$/);
 if(!m||!history.replaceState)return;var t=m[3]||'';
 window.__go={source:m[1],item:m[2],target:t};
 var q='utm_source='+m[1]+'&utm_medium='+({share:'social',calendar:'reminder'}[m[1]]||'referral')+
 '&utm_campaign=chidagni2026&utm_content='+m[2];
-history.replaceState(null,'',location.pathname+'?'+q+(t?'#'+(t.indexOf('yt-')===0?'watch':t):''));})();</script>
+var hash=t?'#'+(t.indexOf('yt-')===0?'watch':t):(/^#go=/.test(location.hash)?'':location.hash);
+history.replaceState(null,'',location.pathname+'?'+q+hash);})();</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -97,6 +101,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h1 class="hero__mark">
         <img src="assets/img/wordmark.webp" alt="Chidagni 2026, The Fire of Consciousness Festival" width="860" height="307" fetchpriority="high">
       </h1>
+
+      <!-- the day's player moves here while its stream is mounted (main.js) -->
+      <div class="hero__live" id="heroLive" hidden></div>
 
       <p class="hero__band">
         <span class="hero__dates">6<sup>th</sup> to 10<sup>th</sup> October 2026</span>

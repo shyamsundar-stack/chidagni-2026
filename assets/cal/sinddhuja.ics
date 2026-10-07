@@ -5,13 +5,13 @@ METHOD:PUBLISH
 PRODID:-//SVMF//Chidagni 2026//EN
 BEGIN:VEVENT
 UID:sinddhuja-2026@chidagni.svmf.in
-DTSTAMP:20260929T174257Z
+DTSTAMP:20261007T071334Z
 DTSTART:20261009T123000Z
 DTEND:20261009T141500Z
 SUMMARY:Chidagni: Kalarathna Vid. U. E. Sinddhuja\, Harikatha on “Meena L
  ochani\, Paasha Mochani”
 DESCRIPTION:Harikatha on “Meena Lochani\, Paasha Mochani”\n\nWatch live
-  on YouTube: https://live.svmf.in/chidagni#go=calendar.sinddhuja.yt-2026-1
+  on YouTube: https://live.svmf.in/chidagni?go=calendar.sinddhuja.yt-2026-1
  0-09\nOr join on Zoom: https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVV
  khBdHpMM05aWkNSUXRwZz09 (Meeting ID 876 9213 5267\, password Krishna)\n\nC
  hidagni 2026\, the Fire of Consciousness Festival. Mini Hall\, 2nd Floor\,
@@ -19,7 +19,7 @@ DESCRIPTION:Harikatha on “Meena Lochani\, Paasha Mochani”\n\nWatch live
  l are welcome.
 LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
  , Mylapore\, Chennai 600004
-URL:https://live.svmf.in/chidagni#go=calendar.sinddhuja.yt-2026-10-09
+URL:https://live.svmf.in/chidagni?go=calendar.sinddhuja.yt-2026-10-09
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M
