@@ -30,7 +30,7 @@ CATEGORY = ('Music', 10)          # YouTube categoryId 10
 TITLES = {
     1: 'Chidagni 2026 · Day 1 · Inauguration | Carnatic Vocal Concert by Vid. Ritvik Y V',
     2: 'Chidagni 2026 · Day 2 · Dr. Priya Ramachandran on Sita Devi | Namasankirtanam by Dr. R. Ganesh',
-    3: 'Chidagni 2026 · Day 3 · Prof. K. Srinivasan on Moksha-Pradayini | Vocal Concert by Dr. Radha Bhaskar',
+    3: 'Chidagni 2026 · Day 3 · Moksha-Pradayini: Prof. K. Srinivasan | Devotional Music: Dr. Radha Bhaskar',
     4: 'Chidagni 2026 · Day 4 · Harikatha: Meena Lochani, Paasha Mochani by Vid. U. E. Sinddhuja',
     5: 'Chidagni 2026 · Day 5 · Carnatic Violin Concert by Dr. M. Narmadha',
 }
@@ -239,9 +239,12 @@ def markdown(bs):
     w('1. **Channel checks.** In YouTube Studio, Settings, Channel, Feature eligibility: the channel must be '
       'phone-verified (custom thumbnails need it) and live streaming must be enabled. If live streaming has '
       'never been used on this channel, turning it on takes up to 24 hours, so do it today.')
-    w('2. **One reusable stream key.** Create, Go live, Stream settings, Stream key, *Create new stream key*. '
-      'Name it `Chidagni 2026`, type *Default*, Variable bitrate on. The encoder (OBS/vMix, or Zoom\'s custom '
-      'live streaming) is set up once with this key and server `rtmp://a.rtmp.youtube.com/live2`.')
+    w('2. **Ingest is Restream, not a YouTube key.** Each broadcast below is attached to its own Restream '
+      'event (app.restream.io/shows/…), which also sends the feed to Facebook (Sripeetam Chennai). The '
+      'technician streams to Restream: in OBS, Service *Restream.io* and that day\'s event, or '
+      '`rtmp://live.restream.io/live` with that day\'s Restream key from the printed technician sheet. Do '
+      '**not** stream to `rtmp://a.rtmp.youtube.com/live2`. (Originally a shared YouTube key `Chidagni 2026` '
+      'was created; it is no longer used.)')
     w(f'3. **Playlist.** Content, Playlists, New playlist: `{PLAYLIST}`, Public. Each stream is added to it '
       'in the Details step below.')
     w('')
@@ -293,16 +296,16 @@ def markdown(bs):
     w('- **Language.** Titles and descriptions are English (the audience includes the diaspora); the '
       'talks, harikatha and namasankirtanam are most likely in Tamil, so the video (audio) language is '
       'Tamil. Confirm with the organisers if a speaker lectures in English.')
-    w('- **If Zoom is the encoder:** in Zoom use *More → Live on Custom Live Streaming Service* with the '
-      'server and the `Chidagni 2026` key, and the day\'s watch URL as the *Live streaming page URL*. '
-      'Do **not** use Zoom\'s one-click *Live on YouTube*: it creates a brand new broadcast with a '
-      'different URL, which the event page does not know about.')
+    w('- **If Zoom is the encoder:** in Zoom use *More → Live on Custom Live Streaming Service* with server '
+      '`rtmp://live.restream.io/live` and that day\'s Restream key (technician sheet), and the day\'s watch URL as '
+      'the *Live streaming page URL*. Do **not** use Zoom\'s one-click *Live on YouTube*: it creates a brand new '
+      'broadcast with a different URL, which the event page does not know about.')
     w('')
     w('## After scheduling')
     w('')
     w('Copy each stream\'s watch URL, in the form `https://www.youtube.com/watch?v=XXXXXXXXXXX` or '
-      '`https://youtube.com/live/XXXXXXXXXXX`, and **send the five links**, labelled by day. The 11-character '
-      'id at the end goes into `STREAMS` in `assets/js/main.js`, keyed by date:')
+      '`https://youtube.com/live/XXXXXXXXXXX`, and **send the five links**, labelled by day. Each link goes '
+      'into `STREAMS` in `assets/js/main.js` as is (any YouTube link form works), keyed by date:')
     w('')
     w('```js')
     w('var STREAMS = {')
@@ -323,7 +326,7 @@ def markdown(bs):
         w(f"- **Thumbnail:** `{b['thumbnail']}`")
         w(f"- **Category:** {b['categoryName']} · **Visibility:** Public · **Made for kids:** No · "
           f"**Playlist:** {b['playlist']}")
-        w(f"- **Stream key:** Chidagni 2026 · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · "
+        w(f"- **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · "
           f"**Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s")
         w(f"- **Key for STREAMS:** `'{b['date']}'`")
         w('')

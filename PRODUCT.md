@@ -5,7 +5,7 @@
 ## What it is
 
 A one-page invitation and programme for the 16th edition of Chidagni, The Fire of
-Consciousness Festival: five evenings of lectures, namasankirtanam, harikatha and
+Consciousness Festival: five evenings of discourses, namasankirtanam, harikatha and
 Carnatic music, 6 to 10 October 2026, at the Mini Hall, 2nd Floor, Bharatiya Vidya
 Bhavan, Mylapore, Chennai. All are welcome. Every session is streamed on Zoom and YouTube.
 

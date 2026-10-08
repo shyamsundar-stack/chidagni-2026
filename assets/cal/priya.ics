@@ -5,23 +5,23 @@ METHOD:PUBLISH
 PRODID:-//SVMF//Chidagni 2026//EN
 BEGIN:VEVENT
 UID:priya-2026@chidagni.svmf.in
-DTSTAMP:20261007T071334Z
+DTSTAMP:20261008T135518Z
 DTSTART:20261007T120000Z
 DTEND:20261007T131500Z
-SUMMARY:Chidagni: Dr. Priya Ramachandran\, Lecture on “Sita Devi”
-DESCRIPTION:Lecture on “Sita Devi”\n\nWatch live on YouTube: https://li
- ve.svmf.in/chidagni?go=calendar.priya.yt-2026-10-07\nOr join on Zoom: http
- s://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Me
- eting ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire of 
- Consciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, E
- ast Mada Street\, Mylapore\, Chennai 600004. All are welcome.
+SUMMARY:Chidagni: Dr. Priya Ramachandran\, Discourse on “Sita Devi”
+DESCRIPTION:Discourse on “Sita Devi”\n\nWatch live on YouTube: https://
+ live.svmf.in/chidagni?go=calendar.priya.yt-2026-10-07\nOr join on Zoom: ht
+ tps://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (
+ Meeting ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire o
+ f Consciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\,
+  East Mada Street\, Mylapore\, Chennai 600004. All are welcome.
 LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
  , Mylapore\, Chennai 600004
 URL:https://live.svmf.in/chidagni?go=calendar.priya.yt-2026-10-07
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M
-DESCRIPTION:Chidagni: Dr. Priya Ramachandran\, Lecture on “Sita Devi”
+DESCRIPTION:Chidagni: Dr. Priya Ramachandran\, Discourse on “Sita Devi”
 END:VALARM
 END:VEVENT
 END:VCALENDAR

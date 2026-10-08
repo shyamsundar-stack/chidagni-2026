@@ -38,12 +38,12 @@ DAYS = [
         ('6:45 pm', 'Carnatic vocal concert', 'Vid. Ritvik Y V', None),
     ]),
     (2, 'Day 2', 'Wednesday 7 October', [
-        ('5:30 pm', 'Lecture on “Sita Devi”', 'Dr. Priya Ramachandran', None),
+        ('5:30 pm', 'Discourse on “Sita Devi”', 'Dr. Priya Ramachandran', None),
         ('6:45 pm', 'Namasankirtanam', 'Dr. R. Ganesh & Party', None),
     ]),
     (3, 'Day 3', 'Thursday 8 October', [
-        ('5:30 pm', 'Lecture on “Moksha-Pradayini”', 'Prof. K. Srinivasan', None),
-        ('6:45 pm', 'Carnatic vocal concert', 'Dr. Radha Bhaskar & disciples', None),
+        ('5:30 pm', 'Discourse on “Moksha-Pradayini”', 'Prof. K. Srinivasan', None),
+        ('6:45 pm', 'Devotional music concert', 'Dr. Radha Bhaskar & disciples', None),
     ]),
     (4, 'Day 4', 'Friday 9 October', [
         ('6:00 pm', 'Harikatha', 'Vid. U. E. Sinddhuja', '“Meena Lochani, Paasha Mochani”'),

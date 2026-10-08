@@ -5,24 +5,25 @@ METHOD:PUBLISH
 PRODID:-//SVMF//Chidagni 2026//EN
 BEGIN:VEVENT
 UID:radha-2026@chidagni.svmf.in
-DTSTAMP:20261007T071334Z
+DTSTAMP:20261008T135518Z
 DTSTART:20261008T131500Z
 DTEND:20261008T144500Z
-SUMMARY:Chidagni: Dr. Radha Bhaskar and disciples\, Carnatic vocal concert
-DESCRIPTION:Carnatic vocal concert\n\nWatch live on YouTube: https://live.s
- vmf.in/chidagni?go=calendar.radha.yt-2026-10-08\nOr join on Zoom: https://
- us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Meetin
- g ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire of Cons
- ciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East 
- Mada Street\, Mylapore\, Chennai 600004. All are welcome.
+SUMMARY:Chidagni: Dr. Radha Bhaskar and disciples\, Devotional music concer
+ t
+DESCRIPTION:Devotional music concert\n\nWatch live on YouTube: https://live
+ .svmf.in/chidagni?go=calendar.radha.yt-2026-10-08\nOr join on Zoom: https:
+ //us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09 (Meet
+ ing ID 876 9213 5267\, password Krishna)\n\nChidagni 2026\, the Fire of Co
+ nsciousness Festival. Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, Eas
+ t Mada Street\, Mylapore\, Chennai 600004. All are welcome.
 LOCATION:Mini Hall\, 2nd Floor\, Bharatiya Vidya Bhavan\, East Mada Street\
  , Mylapore\, Chennai 600004
 URL:https://live.svmf.in/chidagni?go=calendar.radha.yt-2026-10-08
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M
-DESCRIPTION:Chidagni: Dr. Radha Bhaskar and disciples\, Carnatic vocal conc
- ert
+DESCRIPTION:Chidagni: Dr. Radha Bhaskar and disciples\, Devotional music co
+ ncert
 END:VALARM
 END:VEVENT
 END:VCALENDAR

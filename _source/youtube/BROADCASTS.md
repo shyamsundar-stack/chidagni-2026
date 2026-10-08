@@ -6,7 +6,7 @@ Everything needed to schedule the five evening streams on the **SVMF** channel (
 |---|---|---|---|---|---|
 | 1 | Tuesday 6 October | **4:45 pm** | 5:00 pm | `day-1.jpg` | Chidagni 2026 · Day 1 · Inauguration \| Carnatic Vocal Concert by Vid. Ritvik Y V |
 | 2 | Wednesday 7 October | **5:15 pm** | 5:30 pm | `day-2.jpg` | Chidagni 2026 · Day 2 · Dr. Priya Ramachandran on Sita Devi \| Namasankirtanam by Dr. R. Ganesh |
-| 3 | Thursday 8 October | **5:15 pm** | 5:30 pm | `day-3.jpg` | Chidagni 2026 · Day 3 · Prof. K. Srinivasan on Moksha-Pradayini \| Vocal Concert by Dr. Radha Bhaskar |
+| 3 | Thursday 8 October | **5:15 pm** | 5:30 pm | `day-3.jpg` | Chidagni 2026 · Day 3 · Moksha-Pradayini: Prof. K. Srinivasan \| Devotional Music: Dr. Radha Bhaskar |
 | 4 | Friday 9 October | **5:45 pm** | 6:00 pm | `day-4.jpg` | Chidagni 2026 · Day 4 · Harikatha: Meena Lochani, Paasha Mochani by Vid. U. E. Sinddhuja |
 | 5 | Saturday 10 October | **5:45 pm** | 6:00 pm | `day-5.jpg` | Chidagni 2026 · Day 5 · Carnatic Violin Concert by Dr. M. Narmadha |
 
@@ -49,7 +49,7 @@ Copy each stream's watch URL, in the form `https://www.youtube.com/watch?v=XXXXX
 var STREAMS = {
   '2026-10-06': '',   // Day 1: Inauguration | Carnatic Vocal Concert by Vid. Ritvik Y V
   '2026-10-07': '',   // Day 2: Dr. Priya Ramachandran on Sita Devi | Namasankirtanam by Dr. R. Ganesh
-  '2026-10-08': '',   // Day 3: Prof. K. Srinivasan on Moksha-Pradayini | Vocal Concert by Dr. Radha Bhaskar
+  '2026-10-08': '',   // Day 3: Moksha-Pradayini: Prof. K. Srinivasan | Devotional Music: Dr. Radha Bhaskar
   '2026-10-09': '',   // Day 4: Harikatha: Meena Lochani, Paasha Mochani by Vid. U. E. Sinddhuja
   '2026-10-10': '',   // Day 5: Carnatic Violin Concert by Dr. M. Narmadha
 };
@@ -71,7 +71,7 @@ Scheduled streams can be re-timed or re-titled later without changing the URL. D
 Chidagni 2026 · Day 1 · Inauguration | Carnatic Vocal Concert by Vid. Ritvik Y V
 ```
 
-**Description** (2353/5000)
+**Description** (2359/5000)
 
 ```text
 Chidagni 2026, The Fire of Consciousness Festival (16th edition)
@@ -101,8 +101,8 @@ Schedule, countdown and the stream for every evening: https://live.svmf.in/chida
 
 The five evenings (IST):
 Day 1, Tue 6 October: 5:00 pm Inauguration; 6:45 pm Carnatic vocal concert, Vid. Ritvik Y V
-Day 2, Wed 7 October: 5:30 pm Lecture on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
-Day 3, Thu 8 October: 5:30 pm Lecture on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Carnatic vocal concert, Dr. Radha Bhaskar and disciples
+Day 2, Wed 7 October: 5:30 pm Discourse on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
+Day 3, Thu 8 October: 5:30 pm Discourse on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Devotional music concert, Dr. Radha Bhaskar and disciples
 Day 4, Fri 9 October: 6:00 pm Harikatha on “Meena Lochani, Paasha Mochani”, Kalarathna Vid. U. E. Sinddhuja
 Day 5, Sat 10 October: 6:00 pm Carnatic violin concert, Kalaimamani, Kalasri, Tantri Gnana Tapasvi Dr. M. Narmadha
 
@@ -148,14 +148,14 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 Chidagni 2026 · Day 2 · Dr. Priya Ramachandran on Sita Devi | Namasankirtanam by Dr. R. Ganesh
 ```
 
-**Description** (1771/5000)
+**Description** (1779/5000)
 
 ```text
 Chidagni 2026, The Fire of Consciousness Festival (16th edition)
 Day 2 · Wednesday 7 October 2026 · Live from Bharatiya Vidya Bhavan, Mylapore, Chennai
 
 This evening (all times IST; the stream opens at 5:15 pm):
-5:30 pm  Lecture on “Sita Devi”: Dr. Priya Ramachandran
+5:30 pm  Discourse on “Sita Devi”: Dr. Priya Ramachandran
 6:45 pm  Namasankirtanam: Dr. R. Ganesh and Party
 
 Venue: Mini Hall, 2nd Floor, Bharatiya Vidya Bhavan, East Mada Street, Mylapore, Chennai 600004. All are welcome.
@@ -167,8 +167,8 @@ Schedule, countdown and the stream for every evening: https://live.svmf.in/chida
 
 The five evenings (IST):
 Day 1, Tue 6 October: 5:00 pm Inauguration; 6:45 pm Carnatic vocal concert, Vid. Ritvik Y V
-Day 2, Wed 7 October: 5:30 pm Lecture on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
-Day 3, Thu 8 October: 5:30 pm Lecture on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Carnatic vocal concert, Dr. Radha Bhaskar and disciples
+Day 2, Wed 7 October: 5:30 pm Discourse on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
+Day 3, Thu 8 October: 5:30 pm Discourse on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Devotional music concert, Dr. Radha Bhaskar and disciples
 Day 4, Fri 9 October: 6:00 pm Harikatha on “Meena Lochani, Paasha Mochani”, Kalarathna Vid. U. E. Sinddhuja
 Day 5, Sat 10 October: 6:00 pm Carnatic violin concert, Kalaimamani, Kalasri, Tantri Gnana Tapasvi Dr. M. Narmadha
 
@@ -191,7 +191,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 
 ```text
 00:00 Stream opens
-15:00 Lecture on “Sita Devi”: Dr. Priya Ramachandran
+15:00 Discourse on “Sita Devi”: Dr. Priya Ramachandran
 1:30:00 Namasankirtanam: Dr. R. Ganesh and Party
 3:00:00 Close of the evening
 ```
@@ -204,21 +204,21 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 - **Ingest:** that day's Restream event · **DVR:** on · **Auto-start:** off · **Auto-stop:** off · **Latency:** normal · **Allow embedding:** on · **Live chat:** on, slow mode 30 s
 - **Key for STREAMS:** `'2026-10-08'`
 
-**Title** (100/100)
+**Title** (99/100)
 
 ```text
-Chidagni 2026 · Day 3 · Prof. K. Srinivasan on Moksha-Pradayini | Vocal Concert by Dr. Radha Bhaskar
+Chidagni 2026 · Day 3 · Moksha-Pradayini: Prof. K. Srinivasan | Devotional Music: Dr. Radha Bhaskar
 ```
 
-**Description** (1856/5000)
+**Description** (1866/5000)
 
 ```text
 Chidagni 2026, The Fire of Consciousness Festival (16th edition)
 Day 3 · Thursday 8 October 2026 · Live from Bharatiya Vidya Bhavan, Mylapore, Chennai
 
 This evening (all times IST; the stream opens at 5:15 pm):
-5:30 pm  Lecture on “Moksha-Pradayini”: Prof. K. Srinivasan
-6:45 pm  Carnatic vocal concert: Dr. Radha Bhaskar and disciples
+5:30 pm  Discourse on “Moksha-Pradayini”: Prof. K. Srinivasan
+6:45 pm  Devotional music concert: Dr. Radha Bhaskar and disciples
       Harmonium: Vid. R. Arvindh
       Mridangam: Vid. Aravind Davay
 
@@ -231,8 +231,8 @@ Schedule, countdown and the stream for every evening: https://live.svmf.in/chida
 
 The five evenings (IST):
 Day 1, Tue 6 October: 5:00 pm Inauguration; 6:45 pm Carnatic vocal concert, Vid. Ritvik Y V
-Day 2, Wed 7 October: 5:30 pm Lecture on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
-Day 3, Thu 8 October: 5:30 pm Lecture on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Carnatic vocal concert, Dr. Radha Bhaskar and disciples
+Day 2, Wed 7 October: 5:30 pm Discourse on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
+Day 3, Thu 8 October: 5:30 pm Discourse on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Devotional music concert, Dr. Radha Bhaskar and disciples
 Day 4, Fri 9 October: 6:00 pm Harikatha on “Meena Lochani, Paasha Mochani”, Kalarathna Vid. U. E. Sinddhuja
 Day 5, Sat 10 October: 6:00 pm Carnatic violin concert, Kalaimamani, Kalasri, Tantri Gnana Tapasvi Dr. M. Narmadha
 
@@ -255,8 +255,8 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 
 ```text
 00:00 Stream opens
-15:00 Lecture on “Moksha-Pradayini”: Prof. K. Srinivasan
-1:30:00 Carnatic vocal concert: Dr. Radha Bhaskar and disciples
+15:00 Discourse on “Moksha-Pradayini”: Prof. K. Srinivasan
+1:30:00 Devotional music concert: Dr. Radha Bhaskar and disciples
 3:00:00 Close of the evening
 ```
 
@@ -274,7 +274,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 Chidagni 2026 · Day 4 · Harikatha: Meena Lochani, Paasha Mochani by Vid. U. E. Sinddhuja
 ```
 
-**Description** (1821/5000)
+**Description** (1827/5000)
 
 ```text
 Chidagni 2026, The Fire of Consciousness Festival (16th edition)
@@ -294,8 +294,8 @@ Schedule, countdown and the stream for every evening: https://live.svmf.in/chida
 
 The five evenings (IST):
 Day 1, Tue 6 October: 5:00 pm Inauguration; 6:45 pm Carnatic vocal concert, Vid. Ritvik Y V
-Day 2, Wed 7 October: 5:30 pm Lecture on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
-Day 3, Thu 8 October: 5:30 pm Lecture on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Carnatic vocal concert, Dr. Radha Bhaskar and disciples
+Day 2, Wed 7 October: 5:30 pm Discourse on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
+Day 3, Thu 8 October: 5:30 pm Discourse on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Devotional music concert, Dr. Radha Bhaskar and disciples
 Day 4, Fri 9 October: 6:00 pm Harikatha on “Meena Lochani, Paasha Mochani”, Kalarathna Vid. U. E. Sinddhuja
 Day 5, Sat 10 October: 6:00 pm Carnatic violin concert, Kalaimamani, Kalasri, Tantri Gnana Tapasvi Dr. M. Narmadha
 
@@ -336,7 +336,7 @@ Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Founda
 Chidagni 2026 · Day 5 · Carnatic Violin Concert by Dr. M. Narmadha
 ```
 
-**Description** (1903/5000)
+**Description** (1913/5000)
 
 ```text
 Chidagni 2026, The Fire of Consciousness Festival (16th edition)
@@ -344,7 +344,7 @@ Day 5 · Saturday 10 October 2026 · Live from Bharatiya Vidya Bhavan, Mylapore,
 
 This evening (all times IST; the stream opens at 5:45 pm):
 6:00 pm  Carnatic violin concert: Kalaimamani, Kalasri, Tantri Gnana Tapasvi Dr. M. Narmadha
-      Mridangam: Vid. Nagaraj Narayanan
+      Mridangam: Vid. Punnur Arvind Kaushik
       Ghatam: Vid. J. Ramadas
 7:30 pm  Vote of Thanks, Sri. V S V Raman
       Sri Vishnu Mohan Foundation
@@ -358,8 +358,8 @@ Schedule, countdown and the stream for every evening: https://live.svmf.in/chida
 
 The five evenings (IST):
 Day 1, Tue 6 October: 5:00 pm Inauguration; 6:45 pm Carnatic vocal concert, Vid. Ritvik Y V
-Day 2, Wed 7 October: 5:30 pm Lecture on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
-Day 3, Thu 8 October: 5:30 pm Lecture on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Carnatic vocal concert, Dr. Radha Bhaskar and disciples
+Day 2, Wed 7 October: 5:30 pm Discourse on “Sita Devi”, Dr. Priya Ramachandran; 6:45 pm Namasankirtanam, Dr. R. Ganesh and Party
+Day 3, Thu 8 October: 5:30 pm Discourse on “Moksha-Pradayini”, Prof. K. Srinivasan; 6:45 pm Devotional music concert, Dr. Radha Bhaskar and disciples
 Day 4, Fri 9 October: 6:00 pm Harikatha on “Meena Lochani, Paasha Mochani”, Kalarathna Vid. U. E. Sinddhuja
 Day 5, Sat 10 October: 6:00 pm Carnatic violin concert, Kalaimamani, Kalasri, Tantri Gnana Tapasvi Dr. M. Narmadha
 

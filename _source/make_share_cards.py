@@ -50,11 +50,11 @@ SESSIONS = {
         ('Mridangam', 'Vid. Sriram Srinivasan'),
         ('Ghatam', 'Vid. Ganapathy'),
     ]),
-    'priya': (2, '5:30 pm', 'Lecture', None, 'Dr. Priya Ramachandran', 'on “Sita Devi”', []),
+    'priya': (2, '5:30 pm', 'Discourse', None, 'Dr. Priya Ramachandran', 'on “Sita Devi”', []),
     'ganesh': (2, '6:45 pm', 'Namasankirtanam', None, 'Dr. R. Ganesh and Party', None, []),
-    'srinivasan': (3, '5:30 pm', 'Lecture', None, 'Prof. K. Srinivasan',
+    'srinivasan': (3, '5:30 pm', 'Discourse', None, 'Prof. K. Srinivasan',
                    'on “Moksha-Pradayini”', []),
-    'radha': (3, '6:45 pm', 'Carnatic vocal concert', None, 'Dr. Radha Bhaskar and disciples', None, [
+    'radha': (3, '6:45 pm', 'Devotional music concert', None, 'Dr. Radha Bhaskar and disciples', None, [
         ('Harmonium', 'Vid. R. Arvindh'),
         ('Mridangam', 'Vid. Aravind Davay'),
     ]),
@@ -65,7 +65,7 @@ SESSIONS = {
     ]),
     'narmadha': (5, '6:00 pm', 'Carnatic violin concert',
                  'Kalaimamani · Kalasri · Tantri Gnana Tapasvi', 'Dr. M. Narmadha', None, [
-        ('Mridangam', 'Vid. Nagaraj Narayanan'),
+        ('Mridangam', 'Vid. Punnur Arvind Kaushik'),
         ('Ghatam', 'Vid. J. Ramadas'),
     ]),
 }
