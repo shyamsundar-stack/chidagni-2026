@@ -245,10 +245,10 @@ Chapters: timestamps for each session will be added here after the stream.
 #Chidagni2026 #CarnaticMusic #Chennai
 ```
 
-**Tags** (paste as one line; 301/500)
+**Tags** (paste as one line; 313/500)
 
 ```text
-Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Foundation, SVMF, Bharatiya Vidya Bhavan, Sri Gnana Advaitha Peetam, Mylapore, Chennai, Carnatic music, Sri Sathguru Swami Gnanananda Sarasvathi Ma, K. Srinivasan, Moksha Pradayini, Radha Bhaskar, Carnatic vocal concert
+Chidagni, Chidagni 2026, Fire of Consciousness Festival, Sri Vishnu Mohan Foundation, SVMF, Bharatiya Vidya Bhavan, Sri Gnana Advaitha Peetam, Mylapore, Chennai, Carnatic music, Sri Sathguru Swami Gnanananda Sarasvathi Ma, K. Srinivasan, Moksha Pradayini, Radha Bhaskar, devotional music concert, discourse
 ```
 
 **After the stream: chapters.** Offsets below assume the stream went live on time; correct them against the replay, then replace the "Chapters: ..." line in the description with this block (YouTube needs the first line at 00:00 and at least three entries).

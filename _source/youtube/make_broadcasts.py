@@ -41,7 +41,7 @@ DAY_TAGS = {
     1: ['Chidagni inauguration', 'Ritvik Y V', 'Carnatic vocal concert', 'Nalli Kuppuswami Chetti',
         'Swami Shrihariprasad'],
     2: ['Priya Ramachandran', 'Sita Devi', 'R. Ganesh', 'Namasankirtanam', 'bhajan'],
-    3: ['K. Srinivasan', 'Moksha Pradayini', 'Radha Bhaskar', 'Carnatic vocal concert'],
+    3: ['K. Srinivasan', 'Moksha Pradayini', 'Radha Bhaskar', 'devotional music concert', 'discourse'],
     4: ['U. E. Sinddhuja', 'Harikatha', 'Meena Lochani Paasha Mochani', 'Meenakshi'],
     5: ['M. Narmadha', 'Narmadha violin', 'Carnatic violin concert', 'violin'],
 }
